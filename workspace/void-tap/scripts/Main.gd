@@ -1,29 +1,96 @@
 extends Node2D
 
-# Main script for Void-Tap
-# Manages UI and game logic
+# Void-Tap Main Orchestrator
+# Handles UI transitions, screen shake, and shader setup
 
-var game_over_label: Label
-var menu_button: Button
+var start_menu: Control
+var hud: Control
+var game_over_screen: Control
+var score_label: Label
+var high_score_label: Label
+var level_label: Label
+var final_score_label: Label
+var spawner: Node2D
+var camera: Camera2D
+
+var shake_intensity: float = 0.0
+var shake_decay: float = 5.0
 
 func _ready():
-	game_over_label = get_node("UI/GameOverLabel")
-	menu_button = get_node("UI/MenuButton")
-
-	# Connect to the GameManager signal
-	if VoidGameManager:
-		VoidGameManager.player_died.connect(_on_game_over)
+	# UI References
+	start_menu = get_node("UI/StartMenu")
+	hud = get_node("UI/HUD")
+	game_over_screen = get_node("UI/GameOverScreen")
+	score_label = get_node("UI/HUD/ScoreLabel")
+	level_label = get_node("UI/HUD/LevelLabel")
+	final_score_label = get_node("UI/GameOverScreen/FinalScoreLabel")
+	high_score_label = get_node("UI/GameOverScreen/HighScoreLabel")
 	
-	if menu_button:
-		menu_button.pressed.connect(_on_menu_pressed)
+	spawner = get_node("Spawner")
+	camera = get_node("Camera2D")
+	
+	# Initial State
+	start_menu.visible = true
+	hud.visible = false
+	game_over_screen.visible = false
+	get_tree().paused = true
+	
+	# Signal Connections
+	if VoidGameManager:
+		VoidGameManager.player_died.connect(_on_player_died)
+		VoidGameManager.score_updated.connect(_on_score_updated)
+		VoidGameManager.level_up.connect(_on_level_up)
+	
+	# Apply Scanline Shader to Background
+	var bg = get_node("Background")
+	var mat = ShaderMaterial.new()
+	mat.shader = load("res://void-tap/scripts/scanlines.gdshader")
+	bg.material = mat
 
-func _on_game_over():
-	if game_over_label:
-		game_over_label.visible = true
+func _process(delta):
+	# Camera Shake logic
+	if shake_intensity > 0:
+		camera.offset = Vector2(randf_range(-1, 1), randf_range(-1, 1)) * shake_intensity
+		shake_intensity = move_toward(shake_intensity, 0, shake_decay * delta)
+	else:
+		camera.offset = Vector2.ZERO
+
+func _on_play_pressed():
+	start_menu.visible = false
+	hud.visible = true
+	game_over_screen.visible = false
+	VoidGameManager.start_game()
+	spawner.start_spawning()
+
+func _on_restart_pressed():
+	# Clear existing obstacles
+	for child in get_children():
+		if child.is_in_group("obstacle") or child is Area2D: # Simple check
+			child.queue_free()
+	
+	game_over_screen.visible = false
+	hud.visible = true
+	VoidGameManager.start_game()
+	spawner.start_spawning()
+
+func _on_player_died():
+	hud.visible = false
+	game_over_screen.visible = true
+	final_score_label.text = "SCORE: " + str(int(VoidGameManager.current_score))
+	high_score_label.text = "BEST: " + str(VoidGameManager.high_score)
+	spawner.stop_spawning()
+	
+	# Trigger Shake
+	shake_intensity = 15.0
+
+func _on_score_updated(score, _high_score):
+	score_label.text = "VOID: " + str(score)
+
+func _on_level_up(level):
+	level_label.text = "LEVEL: " + str(level)
 
 func _on_menu_pressed():
-	# Use JavaScript to navigate back to the hub if running on Web
 	if OS.has_feature("web"):
 		JavaScriptBridge.eval("window.location.href = '../index.html'")
 	else:
-		print("Back to Menu pressed (Desktop)")
+		get_tree().quit()

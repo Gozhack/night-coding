@@ -14,7 +14,16 @@ config/name="Proyecto Noctambulo"
 run/main_scene="res://void-tap/scenes/Main.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 
+[display]
+
+window/size/viewport_width=1152
+window/size/viewport_height=648
+window/stretch/mode="canvas_items"
+window/stretch/aspect="keep"
+window/handheld/orientation=1
+
 [autoload]
 
 VoidGameManager="*res://void-tap/scripts/GameManager.gd"
 GridGameManager="*res://grid-runner/scripts/GameManager.gd"
+AudioManager="*res://void-tap/scripts/AudioManager.gd"
