@@ -22,6 +22,11 @@ El entorno de desarrollo está completamente configurado y operativo. El agente 
 - **Tecnología:** Godot 4.x (.NET) con .NET 8 pre-instalado.
 - **Source Control:** Repositorio privado en GitHub ([Gozhack/night-coding](https://github.com/Gozhack/night-coding)). Rama principal: `master`.
 
+## 🧠 Agent Synchronization
+- **Shared Memory:** This project uses `/home/gozhack/.gemini/tmp/night-coding/memory/MEMORY.md` as the source of truth for all agents (Gemini CLI, OpenClaw/Clawbot).
+- **Update Rule:** Every time a major technical shift occurs (e.g., migration, new feature, regression fix), the active agent must update `MEMORY.md`.
+- **Bot Instructions:** If OpenClaw seems out of context, ask it to "Read MEMORY.md and GEMINI.md" to catch up.
+
 ## 📝 Instrucciones para Futuras Sesiones
 1. **Verificar Estado:** `docker compose ps` para asegurar que el contenedor está arriba.
 2. **Logs del Bot:** `docker compose logs -f openclaw-agent` para monitorear la actividad del bot.

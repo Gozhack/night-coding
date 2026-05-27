@@ -28,11 +28,11 @@ func _ready():
 func _physics_process(delta):
 	# Move downward
 	position.y += speed * delta
-	
-	# Delete if it goes off-screen
-	if position.y > 800:
-		queue_free()
 
+	# Delete if it goes off-screen (dynamic based on viewport)
+	var screen_height = get_viewport_rect().size.y
+	if position.y > screen_height + 100:
+		queue_free()
 func _draw():
 	# Draw neon red rectangle
 	# Using rect with offset to center it

@@ -43,13 +43,16 @@ func _ready():
 	
 	# Apply Scanline Shader to Background
 	var bg = get_node("Background")
-	bg.size = get_viewport_rect().size # Ensure background fills the entire screen
 	var mat = ShaderMaterial.new()
 	mat.shader = load("res://void-tap/scripts/scanlines.gdshader")
 	bg.material = mat
 
 func _process(delta):
+	# Keep background filling the screen
+	get_node("Background").size = get_viewport_rect().size
+
 	# Camera Shake logic
+
 	if shake_intensity > 0:
 		camera.offset = Vector2(randf_range(-1, 1), randf_range(-1, 1)) * shake_intensity
 		shake_intensity = move_toward(shake_intensity, 0, shake_decay * delta)
