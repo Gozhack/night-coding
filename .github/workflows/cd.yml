@@ -24,13 +24,21 @@ jobs:
           mv templates/* ~/.local/share/godot/export_templates/4.3.stable/
           rm -f Godot_v4.3-stable_export_templates.tpz
 
-      - name: Export
+      - name: Export Games
         run: |
-          mkdir -p build/web
-          # Importation and setup (headless)
+          mkdir -p build/web/void-tap
+          mkdir -p build/web/grid-runner
+          # Importation
           godot --headless --path workspace --editor --quit
-          # Export to HTML5
-          godot --headless --path workspace --export-release "Web" ../build/web/index.html
+          # Export each preset
+          godot --headless --path workspace --export-release "Void-Tap" ../build/web/void-tap/index.html
+          godot --headless --path workspace --export-release "Grid-Runner" ../build/web/grid-runner/index.html
+
+      - name: Create Landing Page
+        run: |
+          cp web-hub/index.html build/web/index.html
+          # Add a .nojekyll file to ensure GitHub Pages doesn't ignore files starting with underscores (Godot needs this)
+          touch build/web/.nojekyll
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
