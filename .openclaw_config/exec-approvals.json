@@ -1,0 +1,48 @@
+{
+  "version": 1,
+  "socket": {
+    "path": "/root/.openclaw/exec-approvals.sock",
+    "token": "2IblbnaxaY4jMx14Ci8vy14nG2qZr9dM"
+  },
+  "defaults": {},
+  "agents": {
+    "*": {
+      "allowlist": [
+        {
+          "pattern": "/workspace/**",
+          "lastUsedAt": 1779866295797,
+          "id": "4cc70450-b099-412c-bd3b-ec97bda6b8d2"
+        },
+        {
+          "pattern": "/usr/bin/dotnet",
+          "lastUsedAt": 1779866297501,
+          "id": "318abfe9-1109-4fac-96f5-ea696c7692ba"
+        },
+        {
+          "pattern": "/usr/local/bin/godot",
+          "lastUsedAt": 1779866299252,
+          "id": "f89a869a-8fb0-44a0-9356-cbbd1da6c6e3"
+        },
+        {
+          "pattern": "/usr/bin/curl",
+          "lastUsedAt": 1779866300903,
+          "id": "8368aba3-c9cd-4b3a-8c24-134642411b14"
+        },
+        {
+          "pattern": "/usr/bin/git",
+          "lastUsedAt": 1779866302523,
+          "id": "1a613a61-d821-4cf7-a45d-79e4f3eee853"
+        },
+        {
+          "pattern": "/usr/bin/apt-get",
+          "lastUsedAt": 1779866304149,
+          "id": "095ab723-0e5e-48c1-be5f-9761fa397f4c"
+        },
+        {
+          "pattern": "/usr/bin/npm",
+          "lastUsedAt": 1779866305730
+        }
+      ]
+    }
+  }
+}
