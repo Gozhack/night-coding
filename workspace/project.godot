@@ -6,7 +6,8 @@ config/features=PackedStringArray("4.2", ".NET", "Forward Plus")
 
 [autoload]
 
-GameManager="*res://void-tap/scripts/GameManager.cs"
+VoidGameManager="*res://void-tap/scripts/GameManager.cs"
+GridGameManager="*res://grid-runner/scripts/GameManager.cs"
 
 [dotnet]
 project/assembly_name="Proyecto Noctambulo"
