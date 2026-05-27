@@ -39,3 +39,10 @@ grow_vertical = 2
 theme_override_font_sizes/font_size = 48
 text = "VOID REACHED"
 horizontal_alignment = 1
+
+[node name="MenuButton" type="Button" parent="UI"]
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 150.0
+offset_bottom = 60.0
+text = "Back to Menu"
