@@ -12,10 +12,11 @@ services:
       - OPENCLAW_GATEWAY_MODE=local
       - OPENCLAW_GATEWAY_BIND=127.0.0.1
       - OPENCLAW_PLUGINS_OPENAI_ENABLED=false
-      - OPENCLAW_PROVIDERS_GOOGLE_DEFAULT_MODEL=google/gemini-1.5-pro
+      - OPENCLAW_PROVIDERS_GOOGLE_DEFAULT_MODEL=google/gemini-2.0-flash
     volumes:
       - ./workspace:/workspace
       - ./.openclaw_config/SOUL.md:/root/.openclaw/workspace/SOUL.md
       - ./.openclaw_config/IDENTITY.md:/root/.openclaw/workspace/IDENTITY.md
       - ./.openclaw_config/AGENTS.md:/root/.openclaw/workspace/AGENTS.md
+      - ./.openclaw_config/openclaw.json:/root/.openclaw/openclaw.json
     restart: unless-stopped
