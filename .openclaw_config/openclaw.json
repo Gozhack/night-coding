@@ -2,18 +2,16 @@
   "agents": {
     "defaults": {
       "model": {
-        "primary": "google/gemini-2.0-flash",
+        "primary": "google/gemini-2.5-flash",
         "fallbacks": [
-          "google/gemini-2.5-flash",
           "google/gemini-3.1-pro-preview"
         ]
       },
       "models": {
-        "google/gemini-3.1-pro-preview": {},
-        "google/gemini-2.5-flash": {
-          "alias": "prev"
+        "google/gemini-3.1-pro-preview": {
+          "alias": "gemini"
         },
-        "google/gemini-2.0-flash": {
+        "google/gemini-2.5-flash": {
           "alias": "auto"
         }
       },
