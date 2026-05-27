@@ -9,7 +9,7 @@ jobs:
     name: Export HTML5 and Deploy
     runs-on: ubuntu-latest
     container:
-      image: barichello/godot-ci:mono-4.2.2
+      image: barichello/godot-ci:mono-4.3
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -23,10 +23,9 @@ jobs:
         run: |
           mkdir -p build/web
           # Importation and setup (headless)
-          godot --headless --path workspace -e --quit
-          # Export to HTML5 (preset must be defined in export_presets.cfg)
-          # For now, we ensure the directory exists and notify if preset is missing
-          godot --headless --path workspace --export-release "Web" ../build/web/index.html || echo "Export preset 'Web' not found. Please create it in Godot Editor."
+          godot --headless --path workspace --editor --quit
+          # Export to HTML5
+          godot --headless --path workspace --export-release "Web" ../build/web/index.html
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
