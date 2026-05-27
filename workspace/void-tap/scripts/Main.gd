@@ -43,6 +43,7 @@ func _ready():
 	
 	# Apply Scanline Shader to Background
 	var bg = get_node("Background")
+	bg.size = get_viewport_rect().size # Ensure background fills the entire screen
 	var mat = ShaderMaterial.new()
 	mat.shader = load("res://void-tap/scripts/scanlines.gdshader")
 	bg.material = mat

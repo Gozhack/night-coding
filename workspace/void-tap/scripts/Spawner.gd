@@ -34,13 +34,14 @@ func stop_spawning():
 func _on_spawn_timer_timeout():
 	if not obstacle_scene or (VoidGameManager and not VoidGameManager.is_playing):
 		return
-	
+
 	var obstacle = obstacle_scene.instantiate()
-	
+
 	# Randomized X position based on current viewport width
-	var viewport_width = get_viewport_rect().size.x
-	var spawn_x = randf_range(50, viewport_width - 50)
+	var viewport_size = get_viewport_rect().size
+	var spawn_x = randf_range(50, viewport_size.x - 50)
 	obstacle.position = Vector2(spawn_x, -50)
-	
-	# Add to main scene so it doesn't move with the spawner if the spawner moves
+
+	# Add to main scene so it doesn't move with the spawner
 	get_parent().add_child(obstacle)
+

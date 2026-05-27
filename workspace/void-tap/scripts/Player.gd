@@ -28,6 +28,9 @@ func _input(event):
 		target_position = event.position
 
 func _physics_process(_delta):
+	# Update screen size dynamically for clamping
+	screen_size = get_viewport_rect().size
+	
 	# Smoothly move towards target
 	global_position = global_position.lerp(target_position, lerp_weight)
 	
