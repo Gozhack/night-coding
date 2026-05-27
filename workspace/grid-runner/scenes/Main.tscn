@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://bbnvokdiocskc"]
 
-[ext_resource type="Script" path="res://grid-runner/scripts/Main.cs" id="1_main"]
+[ext_resource type="Script" path="res://grid-runner/scripts/Main.gd" id="1_main"]
 [ext_resource type="PackedScene" uid="uid://cu0kbkv1tyj63" path="res://grid-runner/scenes/Player.tscn" id="2_player"]
 [ext_resource type="PackedScene" uid="uid://b3cpy2mrq5od7" path="res://grid-runner/scenes/Hazard.tscn" id="3_hazard"]
 

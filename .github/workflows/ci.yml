@@ -6,21 +6,13 @@ on:
 
 jobs:
   build:
-    name: Build Project
+    name: Build Project (Import Check)
     runs-on: ubuntu-latest
     container:
-      image: barichello/godot-ci:mono-4.2.2
+      image: barichello/godot-ci:4.3
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '8.0.x'
-
-      - name: Restore Dependencies
-        run: dotnet restore workspace/*.csproj
-
-      - name: Build
-        run: dotnet build workspace/*.csproj -c Release
+      - name: Import Resources
+        run: godot --headless --path workspace --editor --quit

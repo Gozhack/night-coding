@@ -12,13 +12,9 @@ config_version=5
 
 config/name="Proyecto Noctambulo"
 run/main_scene="res://void-tap/scenes/Main.tscn"
-config/features=PackedStringArray("4.2", "C#", "Forward Plus")
+config/features=PackedStringArray("4.3", "Forward Plus")
 
 [autoload]
 
-VoidGameManager="*res://void-tap/scripts/GameManager.cs"
-GridGameManager="*res://grid-runner/scripts/GameManager.cs"
-
-[dotnet]
-
-project/assembly_name="Proyecto Noctambulo"
+VoidGameManager="*res://void-tap/scripts/GameManager.gd"
+GridGameManager="*res://grid-runner/scripts/GameManager.gd"

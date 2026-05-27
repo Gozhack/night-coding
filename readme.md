@@ -1,22 +1,22 @@
-# 🌙 Proyecto Noctámbulo: Autonomous Vibecoding (OpenClaw + Gemini + Godot C#)
+# 🌙 Proyecto Noctámbulo: Autonomous Vibecoding (OpenClaw + Gemini + Godot GDScript)
 
-## 🎯 Objetivo del Sistema
-Este documento define el entorno de ejecución autónoma, la configuración de infraestructura y la arquitectura de software para un MVP de juego móvil. El agente (OpenClaw) debe leer este documento para entender su propósito: ejecutar tareas de desarrollo, compilación y prueba de forma ininterrumpida durante un bloque de 8 horas sin requerir intervención humana en la terminal.
+## 🎯 System Objective
+This document defines the autonomous execution environment, infrastructure configuration, and software architecture for a mobile game MVP. The agent (OpenClaw) should read this document to understand its purpose: executing development, compilation, and testing tasks uninterrupted during an 8-hour block without requiring human terminal intervention.
 
-## 1. Infraestructura y Sandbox (Ubuntu)
+## 1. Infrastructure and Sandbox (Ubuntu)
 
-El entorno de ejecución es un sandbox Ubuntu aislado. El agente tiene permisos totales dentro del contenedor Docker para crear, modificar y eliminar archivos, así como para instalar dependencias de sistema necesarias para Godot 4.x (versión .NET).
+The execution environment is an isolated Ubuntu sandbox. The agent has full permissions within the Docker container to create, modify, and delete files, as well as install system dependencies required for Godot 4.x.
 
-### Stack Técnico Requerido:
-*   **Agente:** OpenClaw (Ejecución en segundo plano).
-*   **LLM:** Gemini 1.5 Pro (vía API).
-*   **Motor:** Godot Engine 4.x (.NET version).
-*   **Lenguaje:** C# 11/12 (.NET 8).
-*   **Interfaz de Notificación:** Telegram Bot API.
+### Required Technical Stack:
+*   **Agent:** OpenClaw (Background execution).
+*   **LLM:** Gemini 2.0/3.0 (via API).
+*   **Engine:** Godot Engine 4.x (Standard version).
+*   **Language:** GDScript.
+*   **Notification Interface:** Telegram Bot API.
 
-## 2. Configuración del Agente (OpenClaw)
+## 2. Agent Configuration (OpenClaw)
 
-El agente debe inicializarse usando el siguiente archivo `docker-compose.yml` para garantizar persistencia de datos y acceso a red:
+The agent should be initialized using the following `docker-compose.yml` to ensure data persistence and network access:
 
 ```yaml
 version: '3.8'
@@ -28,8 +28,30 @@ services:
       - GEMINI_API_KEY=${GEMINI_API_KEY}
       - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
       - TELEGRAM_CHAT_ID=${TELEGRAM_CHAT_ID}
-      - MAX_API_SPEND_USD=5.00 # Límite estricto de seguridad
-      - AUTO_RETRY_LIMIT=5 # Evita bucles infinitos en errores de compilación
+      - MAX_API_SPEND_USD=5.00 # Strict security limit
+      - AUTO_RETRY_LIMIT=5 # Avoid infinite loops on compilation errors
     volumes:
       - ./workspace:/workspace
     working_dir: /workspace
+```
+
+## 3. Project Structure
+
+The workspace is organized to support multiple prototypes and shared logic:
+
+*   `workspace/`: Main Godot project folder.
+*   `workspace/void-tap/`: Prototype for a simple vertical tapping game.
+*   `workspace/grid-runner/`: Prototype for a grid-based movement game.
+*   `workspace/scripts/`: Shared logic and base classes.
+*   `workspace/scenes/`: Common scenes.
+
+## 4. Development Workflow
+
+The agent follows an autonomous "Plan-Act-Validate" cycle:
+1.  **Research:** Analyze existing scripts and scene structure.
+2.  **Strategy:** Propose a solution or new feature.
+3.  **Implementation:** Write GDScript code and update `.tscn` files.
+4.  **Verification:** Run Godot in headless mode to verify no loading errors and trigger CI/CD for Web deployment.
+
+---
+*Note: The project was migrated from C# to GDScript to ensure full compatibility with Godot 4 Web (HTML5) exports.*
