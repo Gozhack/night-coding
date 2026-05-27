@@ -9,7 +9,7 @@ var instance = null
 var is_playing: bool = true
 
 func _ready():
-	instance = this
+	instance = self
 	# Set process mode to always so the timer works when paused
 	process_mode = Node.PROCESS_MODE_ALWAYS
 

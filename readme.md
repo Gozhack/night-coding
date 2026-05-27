@@ -1,4 +1,4 @@
-# 🌙 Proyecto Noctámbulo: Autonomous Vibecoding (OpenClaw + Gemini + Godot GDScript)
+# 🌙 Project Noctambulo: Autonomous Vibecoding (OpenClaw + Gemini + Godot GDScript)
 
 ## 🎯 System Objective
 This document defines the autonomous execution environment, infrastructure configuration, and software architecture for a mobile game MVP. The agent (OpenClaw) should read this document to understand its purpose: executing development, compilation, and testing tasks uninterrupted during an 8-hour block without requiring human terminal intervention.
