@@ -8,6 +8,8 @@ jobs:
   export-web:
     name: Export HTML5 and Deploy
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     container:
       image: barichello/godot-ci:4.3
     steps:
