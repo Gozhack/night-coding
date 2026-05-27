@@ -15,4 +15,7 @@ services:
       - OPENCLAW_PROVIDERS_GOOGLE_DEFAULT_MODEL=google/gemini-1.5-pro
     volumes:
       - ./workspace:/workspace
+      - ./.openclaw_config/SOUL.md:/root/.openclaw/workspace/SOUL.md
+      - ./.openclaw_config/IDENTITY.md:/root/.openclaw/workspace/IDENTITY.md
+      - ./.openclaw_config/AGENTS.md:/root/.openclaw/workspace/AGENTS.md
     restart: unless-stopped
