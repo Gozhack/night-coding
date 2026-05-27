@@ -1,0 +1,8 @@
+config_version=5
+
+[application]
+config/name="Proyecto Noctambulo"
+config/features=PackedStringArray("4.2", ".NET", "Forward Plus")
+
+[dotnet]
+project/assembly_name="Proyecto Noctambulo"

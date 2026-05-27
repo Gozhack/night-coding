@@ -1,0 +1,18 @@
+services:
+  openclaw-agent:
+    build: .
+    container_name: openclaw_sandbox
+    command: node openclaw.mjs gateway --allow-unconfigured --password sandbox
+    environment:
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+      - TELEGRAM_CHAT_ID=${TELEGRAM_CHAT_ID}
+      - MAX_API_SPEND_USD=5.00
+      - AUTO_RETRY_LIMIT=5
+      - OPENCLAW_GATEWAY_MODE=local
+      - OPENCLAW_GATEWAY_BIND=127.0.0.1
+      - OPENCLAW_PLUGINS_OPENAI_ENABLED=false
+      - OPENCLAW_PROVIDERS_GOOGLE_DEFAULT_MODEL=google/gemini-1.5-pro
+    volumes:
+      - ./workspace:/workspace
+    restart: unless-stopped

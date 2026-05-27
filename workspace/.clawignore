@@ -1,0 +1,16 @@
+# Ignorar carpetas ocultas de Godot y builds
+.godot/
+.tmp/
+export_presets.cfg
+
+# Ignorar assets binarios o de texto masivo
+*.import
+*.tscn
+*.fbx
+*.glb
+*.png
+*.jpg
+*.ogg
+*.wav
+*.tres
+*.res
