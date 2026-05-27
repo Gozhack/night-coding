@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://e1v2v3v4v5v6v7"]
+
+[ext_resource type="Script" path="res://void-tap/scripts/Obstacle.cs" id="1_script"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_obstacle"]
+radius = 30.0
+
+[node name="Obstacle" type="Area2D"]
+script = ExtResource("1_script")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = -25.0
+offset_top = -25.0
+offset_right = 25.0
+offset_bottom = 25.0
+color = Color(0.8, 0.2, 0.2, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_obstacle")
