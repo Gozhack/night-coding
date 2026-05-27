@@ -1,8 +1,18 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
 config_version=5
 
 [application]
+
 config/name="Proyecto Noctambulo"
-config/features=PackedStringArray("4.2", ".NET", "Forward Plus")
+run/main_scene="res://void-tap/scenes/Main.tscn"
+config/features=PackedStringArray("4.2", "C#", "Forward Plus")
 
 [autoload]
 
@@ -10,4 +20,5 @@ VoidGameManager="*res://void-tap/scripts/GameManager.cs"
 GridGameManager="*res://grid-runner/scripts/GameManager.cs"
 
 [dotnet]
+
 project/assembly_name="Proyecto Noctambulo"

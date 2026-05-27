@@ -2,7 +2,7 @@ services:
   openclaw-agent:
     build: .
     container_name: openclaw_sandbox
-    command: node openclaw.mjs gateway --allow-unconfigured --password sandbox
+    command: node openclaw.mjs gateway --allow-unconfigured --password ${OPENCLAW_PASSWORD:-sandbox}
     environment:
       - GEMINI_API_KEY=${GEMINI_API_KEY}
       - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}

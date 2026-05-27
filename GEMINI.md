@@ -13,13 +13,14 @@ El entorno de desarrollo está completamente configurado y operativo. El agente 
 
 ### 📱 Comunicación & Pairing
 - **Canal:** Telegram (@NaruDev_bot).
-- **Usuario Dueño:** `1121010004` (Emparejado y autorizado).
-- **Contraseña del Gateway:** `sandbox` (Configurada internamente en el CLI).
+- **Usuario Dueño:** (Configurado vía variable de entorno `TELEGRAM_CHAT_ID`).
+- **Contraseña del Gateway:** (Configurada vía variable de entorno `OPENCLAW_PASSWORD`).
 
 ### 🛠️ Entorno de Desarrollo
 - **Docker:** Contenedor `openclaw_sandbox` corriendo Node.js + OpenClaw Gateway.
 - **Workspace:** Mapeado a `./workspace` en el host.
 - **Tecnología:** Godot 4.x (.NET) con .NET 8 pre-instalado.
+- **Source Control:** Repositorio privado en GitHub ([Gozhack/night-coding](https://github.com/Gozhack/night-coding)). Rama principal: `master`.
 
 ## 📝 Instrucciones para Futuras Sesiones
 1. **Verificar Estado:** `docker compose ps` para asegurar que el contenedor está arriba.

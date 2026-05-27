@@ -4,13 +4,14 @@
       "model": {
         "primary": "google/gemini-2.0-flash",
         "fallbacks": [
+          "google/gemini-2.5-flash",
           "google/gemini-3.1-pro-preview"
         ]
       },
       "models": {
         "google/gemini-3.1-pro-preview": {},
         "google/gemini-2.5-flash": {
-          "alias": "flash-prev"
+          "alias": "prev"
         },
         "google/gemini-2.0-flash": {
           "alias": "auto"
@@ -22,16 +23,16 @@
   },
   "meta": {
     "lastTouchedVersion": "2026.5.22",
-    "lastTouchedAt": "2026-05-27T06:45:58.615Z"
+    "lastTouchedAt": "2026-05-27T07:20:00Z"
   },
   "gateway": {
     "remote": {
-      "password": "sandbox"
+      "password": "REPLACEME_WITH_OPENCLAW_PASSWORD"
     }
   },
   "commands": {
     "ownerAllowFrom": [
-      "telegram:1121010004"
+      "telegram:REPLACEME_WITH_TELEGRAM_CHAT_ID"
     ]
   }
 }

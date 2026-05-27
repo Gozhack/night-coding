@@ -1,8 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://i1v2v3v4v5v6v7"]
+[gd_scene load_steps=4 format=3 uid="uid://bbnvokdiocskc"]
 
 [ext_resource type="Script" path="res://grid-runner/scripts/Main.cs" id="1_main"]
-[ext_resource type="PackedScene" path="res://grid-runner/scenes/Player.tscn" id="2_player"]
-[ext_resource type="PackedScene" path="res://grid-runner/scenes/Hazard.tscn" id="3_hazard"]
+[ext_resource type="PackedScene" uid="uid://cu0kbkv1tyj63" path="res://grid-runner/scenes/Player.tscn" id="2_player"]
+[ext_resource type="PackedScene" uid="uid://b3cpy2mrq5od7" path="res://grid-runner/scenes/Hazard.tscn" id="3_hazard"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_main")
