@@ -19,24 +19,46 @@ func _ready():
 
 # Simple beep sound
 func play_beep(freq: float = 440.0, duration: float = 0.1):
+	_generate_tone(freq, duration, 0.2)
+
+# Tone for level up - slightly more complex
+func play_level_up(level: int):
+	# Ascending tones based on level
+	var base_freq = 440.0 + (level * 50.0)
+	_generate_tone(base_freq, 0.1, 0.3)
+	_generate_tone(base_freq * 1.5, 0.15, 0.2)
+
+func _generate_tone(freq: float, duration: float, volume: float):
+	if not generator: return
+	
 	var phase = 0.0
 	var increment = freq / sample_rate
 	var frames = int(duration * sample_rate)
 	
+	# Check if we have space in buffer
+	if generator.get_frames_available() < frames:
+		return # Skip if too busy to avoid lag
+	
 	for i in range(frames):
-		var sample = sin(phase * 2.0 * PI)
+		var sample = sin(phase * 2.0 * PI) * volume
 		# Basic envelope to prevent clicking
-		if i < 100: sample *= i / 100.0
-		if i > frames - 100: sample *= (frames - i) / 100.0
+		if i < 200: sample *= i / 200.0
+		if i > frames - 200: sample *= (frames - i) / 200.0
 		
 		generator.push_frame(Vector2(sample, sample))
 		phase = fmod(phase + increment, 1.0)
 
 # Low frequency noise for death
 func play_death():
-	var frames = int(0.5 * sample_rate)
+	if not generator: return
+	var frames = int(0.6 * sample_rate)
+	
+	# Ensure we don't overflow buffer
+	var available = generator.get_frames_available()
+	frames = min(frames, available)
+	
 	for i in range(frames):
-		var sample = randf_range(-1.0, 1.0) * (float(frames - i) / frames)
+		var sample = randf_range(-0.5, 0.5) * (float(frames - i) / frames)
 		generator.push_frame(Vector2(sample, sample))
 
 # Minimalist ambient pulse (call this repeatedly or use a separate player)

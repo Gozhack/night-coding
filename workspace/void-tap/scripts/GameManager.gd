@@ -46,7 +46,7 @@ func _process(delta):
 				difficulty_level += 1
 				level_up.emit(difficulty_level)
 				if AudioManager:
-					AudioManager.play_beep(1760, 0.2) # High pitch beep for level up
+					AudioManager.play_level_up(difficulty_level)
 
 func game_over():
 	if not is_playing:
