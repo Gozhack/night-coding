@@ -77,11 +77,17 @@ func _process(delta):
 	# Keep background filling the screen
 	get_node("Background").size = get_viewport().get_visible_rect().size
 
-	# Camera Shake logic
-
+	# Camera Shake logic (VT-06)
 	if shake_intensity > 0:
-		camera.offset = Vector2(randf_range(-1, 1), randf_range(-1, 1)) * shake_intensity
-		shake_intensity = move_toward(shake_intensity, 0, shake_decay * delta)
+		# Use a noise-like approach for more organic shake
+		camera.offset = Vector2(
+			randf_range(-1.0, 1.0) * shake_intensity,
+			randf_range(-1.0, 1.0) * shake_intensity
+		)
+		shake_intensity = lerp(shake_intensity, 0.0, shake_decay * delta)
+		if shake_intensity < 0.1:
+			shake_intensity = 0.0
+			camera.offset = Vector2.ZERO
 	else:
 		camera.offset = Vector2.ZERO
 
