@@ -3,14 +3,9 @@
     "defaults": {
       "model": {
         "primary": "google/gemini-2.5-flash",
-        "fallbacks": [
-          "google/gemini-3.1-pro-preview"
-        ]
+        "fallbacks": []
       },
       "models": {
-        "google/gemini-3.1-pro-preview": {
-          "alias": "gemini"
-        },
         "google/gemini-2.5-flash": {
           "alias": "auto"
         }

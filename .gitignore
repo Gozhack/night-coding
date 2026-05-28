@@ -12,6 +12,9 @@
 *.log
 ingress-spool-*/
 
+# Gemini CLI OAuth credentials (free tier login) — NUNCA commitear
+.gemini_cli/
+
 # Godot specific
 .godot/
 *.import

@@ -14,7 +14,9 @@
         { "pattern": "/usr/bin/curl" },
         { "pattern": "/usr/bin/git" },
         { "pattern": "/usr/bin/apt-get" },
-        { "pattern": "/usr/bin/npm" }
+        { "pattern": "/usr/bin/npm" },
+        { "pattern": "/usr/bin/env" },
+        { "pattern": "/usr/local/bin/gemini" }
       ]
     }
   }

@@ -43,9 +43,14 @@ RUN wget https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}
     && mv Godot_v${GODOT_VERSION}-stable_mono_linux_x86_64/GodotSharp /usr/local/bin/GodotSharp \
     && rm -rf Godot_v${GODOT_VERSION}-stable_mono_linux_x86_64*
 
+# Instalar el Gemini CLI oficial (para el coding pesado en free tier vía OAuth)
+# La imagen base de OpenClaw ya trae Node/npm. El binario queda en /usr/local/bin/gemini.
+RUN npm install -g @google/gemini-cli \
+    && ln -sf "$(npm config get prefix)/bin/gemini" /usr/local/bin/gemini 2>/dev/null || true
+
 # Definir el directorio de trabajo (restaurar al de la imagen base)
 WORKDIR /app
 
 # El comando de entrada lo define la imagen base de OpenClaw
-# Pero nos aseguramos de que el workspace esté disponible
-RUN mkdir -p /workspace
+# Pero nos aseguramos de que el workspace y el dir de credenciales del CLI existan
+RUN mkdir -p /workspace /root/.gemini

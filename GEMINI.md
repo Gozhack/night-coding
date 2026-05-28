@@ -3,9 +3,22 @@
 ## 🚀 Estado Actual (2026-05-26)
 El entorno de desarrollo está completamente configurado y operativo. El agente OpenClaw (Clawbot) está conectado vía Telegram y optimizado para trabajar con el motor Godot.
 
-### 🤖 Configuración de IA (Gemini)
-- **Modelo Principal:** `google/gemini-2.5-flash` (Alias: `auto`). Elegido por su alta velocidad y límites de cuota amplios.
-- **Modelo de Respaldo (Fallback):** `google/gemini-3.1-pro-preview` (Alias: `gemini`). Se activa automáticamente si Flash falla o para tareas complejas.
+### 🤖 Arquitectura de IA (Híbrida — todo gratis)
+Dos motores con cuotas gratis **separadas**:
+- **Chappie (OpenClaw)** = personalidad de gato + canal de Telegram + dispatcher. Corre sobre `google/gemini-2.5-flash` (alias `auto`) con una **API key de free tier SIN billing**. Sin fallback a Pro (se quitó: era caro). Si topa rate limit → 429, nunca cobra.
+- **Gemini CLI** = coding pesado, sobre el **free tier de OAuth** (login con tu cuenta Google, cuota aparte). Chappie lo invoca con la key removida del entorno:
+  ```bash
+  cd /workspace && env -u GEMINI_API_KEY -u GOOGLE_API_KEY gemini -p "..." --yolo
+  ```
+  El `env -u` es lo que evita que el CLI use (y gaste) la key de pago — fue el bug original.
+
+#### 🔑 Login OAuth del CLI (una sola vez)
+El free tier del CLI requiere login con tu cuenta Google. En la lap headless:
+```bash
+docker compose exec openclaw-agent gemini   # elige "Login with Google", abre la URL que imprime y pega el código
+```
+Las credenciales quedan en `./.gemini_cli/` (volumen persistente, en `.gitignore`). Después, las llamadas con `-p ... --yolo` corren sin interacción.
+
 - **Optimización de Contexto:**
     - `bootstrapMaxChars`: 10,000 (Aumentado para evitar truncamiento de archivos de configuración).
     - `bootstrapTotalMaxChars`: 30,000.
