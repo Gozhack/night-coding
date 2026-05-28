@@ -22,6 +22,10 @@ window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 window/handheld/orientation=1
 
+[rendering]
+
+environment/defaults/default_clear_color=Color(0, 0, 0, 1)
+
 [autoload]
 
 VoidGameManager="*res://void-tap/scripts/GameManager.gd"

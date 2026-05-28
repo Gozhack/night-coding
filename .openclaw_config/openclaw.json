@@ -15,8 +15,8 @@
           "alias": "auto"
         }
       },
-      "bootstrapMaxChars": 1000,
-      "bootstrapTotalMaxChars": 5000
+      "bootstrapMaxChars": 10000,
+      "bootstrapTotalMaxChars": 30000
     }
   },
   "meta": {

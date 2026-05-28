@@ -30,7 +30,7 @@ func _physics_process(delta):
 	position.y += speed * delta
 
 	# Delete if it goes off-screen (dynamic based on viewport)
-	var screen_height = get_viewport_rect().size.y
+	var screen_height = get_viewport().get_visible_rect().size.y
 	if position.y > screen_height + 100:
 		queue_free()
 func _draw():

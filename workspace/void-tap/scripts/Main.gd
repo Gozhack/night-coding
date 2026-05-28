@@ -41,15 +41,22 @@ func _ready():
 		VoidGameManager.score_updated.connect(_on_score_updated)
 		VoidGameManager.level_up.connect(_on_level_up)
 	
-	# Apply Scanline Shader to Background
+	# Set Background to solid black (as requested by Gozhack)
 	var bg = get_node("Background")
-	var mat = ShaderMaterial.new()
-	mat.shader = load("res://void-tap/scripts/scanlines.gdshader")
-	bg.material = mat
+	bg.material = null # Remove any shader material
+	# Assuming 'Background' is a ColorRect or similar node with a 'color' property
+	if bg is ColorRect:
+		bg.color = Color("#0a0a0a")
+	else:
+		# Fallback if not ColorRect - try to set color if possible, or leave a note
+		# This might require checking node type in editor for full certainty
+		pass # No direct way to set color for generic Node2D without explicit property
+		# Gozhack, si el fondo sigue blanco, puede que 'Background' no sea un ColorRect directamente.
+
 
 func _process(delta):
 	# Keep background filling the screen
-	get_node("Background").size = get_viewport_rect().size
+	get_node("Background").size = get_viewport().get_visible_rect().size
 
 	# Camera Shake logic
 

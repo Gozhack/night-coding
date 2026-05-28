@@ -38,7 +38,7 @@ func _on_spawn_timer_timeout():
 	var obstacle = obstacle_scene.instantiate()
 
 	# Randomized X position based on current viewport width
-	var viewport_size = get_viewport_rect().size
+	var viewport_size = get_viewport().get_visible_rect().size
 	var spawn_x = randf_range(50, viewport_size.x - 50)
 	obstacle.position = Vector2(spawn_x, -50)
 

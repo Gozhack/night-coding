@@ -7,8 +7,8 @@ El entorno de desarrollo está completamente configurado y operativo. El agente 
 - **Modelo Principal:** `google/gemini-2.5-flash` (Alias: `auto`). Elegido por su alta velocidad y límites de cuota amplios.
 - **Modelo de Respaldo (Fallback):** `google/gemini-3.1-pro-preview` (Alias: `gemini`). Se activa automáticamente si Flash falla o para tareas complejas.
 - **Optimización de Contexto:**
-    - `bootstrapMaxChars`: 1,000 (Reducido para evitar consumo excesivo de tokens).
-    - `bootstrapTotalMaxChars`: 5,000.
+    - `bootstrapMaxChars`: 10,000 (Aumentado para evitar truncamiento de archivos de configuración).
+    - `bootstrapTotalMaxChars`: 30,000.
     - Archivo `.clawignore` configurado en `workspace/` para ignorar archivos binarios y metadatos de Godot (`.godot/`, `.import`, `.tscn`, etc.).
 
 ### 📱 Comunicación & Pairing
