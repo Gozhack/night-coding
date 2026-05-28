@@ -112,8 +112,16 @@ func _on_restart_pressed():
 func _on_player_died():
 	hud.visible = false
 	game_over_screen.visible = true
-	final_score_label.text = "SCORE: " + str(int(VoidGameManager.current_score))
-	high_score_label.text = "BEST: " + str(VoidGameManager.high_score)
+	var final_score = int(VoidGameManager.current_score)
+	final_score_label.text = "SCORE: " + str(final_score)
+	
+	if final_score >= VoidGameManager.high_score:
+		high_score_label.text = "NEW BEST: " + str(final_score)
+		high_score_label.modulate = Color("#00ffff") # Cyan highlight
+	else:
+		high_score_label.text = "BEST: " + str(VoidGameManager.high_score)
+		high_score_label.modulate = Color.WHITE
+		
 	spawner.stop_spawning()
 	
 	# Trigger Shake
