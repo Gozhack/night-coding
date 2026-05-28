@@ -35,7 +35,26 @@ func _ready():
 	game_over_screen.visible = false
 	get_tree().paused = true
 	
+	# Start Menu Animations (VT-02)
+	_setup_start_menu_animations()
+	
 	# Signal Connections
+...
+
+func _setup_start_menu_animations():
+	var play_button = get_node_or_null("UI/StartMenu/PlayButton")
+	var title = get_node_or_null("UI/StartMenu/Title")
+	
+	if play_button:
+		var tween = create_tween().set_loops()
+		tween.tween_property(play_button, "scale", Vector2(1.1, 1.1), 0.6).set_trans(Tween.TRANS_SINE)
+		tween.tween_property(play_button, "scale", Vector2(1.0, 1.0), 0.6).set_trans(Tween.TRANS_SINE)
+		play_button.pivot_offset = play_button.size / 2
+		
+	if title:
+		var tween = create_tween().set_loops()
+		tween.tween_property(title, "position:y", title.position.y - 10, 1.5).set_trans(Tween.TRANS_SINE)
+		tween.tween_property(title, "position:y", title.position.y, 1.5).set_trans(Tween.TRANS_SINE)
 	if VoidGameManager:
 		VoidGameManager.player_died.connect(_on_player_died)
 		VoidGameManager.score_updated.connect(_on_score_updated)
