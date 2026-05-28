@@ -9,13 +9,47 @@ extends CharacterBody2D
 var target_position: Vector2
 var screen_size: Vector2
 var radius: float = 25.0
+var trail: CPUParticles2D
 
 func _ready():
 	screen_size = get_viewport_rect().size
 	target_position = position
 	add_to_group("player")
 	
+	# Setup Trail (VT-05)
+	_setup_trail()
+	
 	# Hide the existing ColorRect if it exists (we'll draw our own)
+...
+func _setup_trail():
+	trail = CPUParticles2D.new()
+	add_child(trail)
+	
+	# Move trail to be behind the player
+	move_child(trail, 0)
+	
+	trail.amount = 20
+	trail.lifetime = 0.5
+	trail.explosiveness = 0.0
+	trail.randomness = 0.5
+	trail.local_coords = false # Essential for the trail effect
+	
+	# Visuals
+	trail.draw_order = CPUParticles2D.DRAW_ORDER_LIFETIME
+	trail.spread = 180.0
+	trail.gravity = Vector2.ZERO
+	trail.initial_velocity_min = 10.0
+	trail.initial_velocity_max = 30.0
+	trail.scale_amount_min = 5.0
+	trail.scale_amount_max = 10.0
+	
+	# Color Gradient (Cyan to Transparent)
+	var gradient = Gradient.new()
+	gradient.add_point(0.0, Color("#00ffcc"))
+	gradient.add_point(1.0, Color("#00ffcc", 0.0))
+	trail.color_ramp = gradient
+	
+	trail.emitting = true
 	if has_node("ColorRect"):
 		get_node("ColorRect").visible = false
 
