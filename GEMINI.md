@@ -26,6 +26,7 @@ El entorno de desarrollo está completamente configurado y operativo. El agente 
 - **Shared Memory:** This project uses `/home/gozhack/.gemini/tmp/night-coding/memory/MEMORY.md` as the source of truth for all agents (Gemini CLI, OpenClaw/Clawbot).
 - **Update Rule:** Every time a major technical shift occurs (e.g., migration, new feature, regression fix), the active agent must update `MEMORY.md`.
 - **Bot Instructions:** If OpenClaw seems out of context, ask it to "Read MEMORY.md and GEMINI.md" to catch up.
+- **Git Safety:** NEVER run `git init` or modify global git credentials. The repository structure and authentication are managed by the user/Gemini CLI only.
 
 ## 📝 Instrucciones para Futuras Sesiones
 1. **Verificar Estado:** `docker compose ps` para asegurar que el contenedor está arriba.
