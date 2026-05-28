@@ -118,6 +118,26 @@ func _on_score_updated(score, _high_score):
 
 func _on_level_up(level):
 	level_label.text = "LEVEL: " + str(level)
+	
+	# Visual announcement (VT-03)
+	var announcement = Label.new()
+	announcement.text = "LEVEL " + str(level)
+	announcement.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	announcement.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	announcement.add_theme_font_size_override("font_size", 64)
+	announcement.modulate = Color("#00ffff") # Cyan
+	
+	# Center it on screen
+	var screen_size = get_viewport().get_visible_rect().size
+	announcement.position = (screen_size / 2) - Vector2(200, 50) # Approx center
+	
+	add_child(announcement)
+	
+	# Animate and remove
+	var tween = create_tween()
+	tween.tween_property(announcement, "scale", Vector2(1.5, 1.5), 0.5).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tween.parallel().tween_property(announcement, "modulate:a", 0.0, 1.0).set_delay(1.0)
+	tween.tween_callback(announcement.queue_free)
 
 func _on_menu_pressed():
 	if OS.has_feature("web"):
