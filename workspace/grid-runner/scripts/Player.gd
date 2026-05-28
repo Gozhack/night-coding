@@ -42,4 +42,7 @@ func _physics_process(_delta):
 		else:
 			position = target_position
 			velocity = Vector2.ZERO
-			is_moving = false
+			if is_moving:
+				is_moving = false
+				if GridGameManager:
+					GridGameManager.add_score(1)
