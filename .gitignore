@@ -4,6 +4,9 @@
 .env.*
 !.env.example
 
+# Claude Code session data (planes, memoria del asistente del host) — no es del proyecto
+.claude/
+
 # Docker
 .docker/
 
