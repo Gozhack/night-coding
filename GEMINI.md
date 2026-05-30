@@ -19,6 +19,8 @@ docker compose exec openclaw-agent gemini   # elige "Login with Google", abre la
 ```
 Las credenciales quedan en `./.gemini_cli/` (volumen persistente, en `.gitignore`). Después, las llamadas con `-p ... --yolo` corren sin interacción.
 
+> ⚠️ **Trust del workspace (obligatorio en headless):** el Gemini CLI no corre herramientas en un folder "no confiable" y falla con *"not running in a trusted directory"*. Por eso el `docker-compose.yml` setea `GEMINI_CLI_TRUST_WORKSPACE=true`. **No borres esa env var** o las delegaciones de Chappie dejan de funcionar.
+
 - **Optimización de Contexto:**
     - `bootstrapMaxChars`: 10,000 (Aumentado para evitar truncamiento de archivos de configuración).
     - `bootstrapTotalMaxChars`: 30,000.
