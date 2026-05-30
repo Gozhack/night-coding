@@ -8,7 +8,7 @@
   "agents": {
     "*": {
       "allowlist": [
-        { "pattern": "/workspace/**" },
+        { "pattern": "/repo/**" },
         { "pattern": "/usr/bin/dotnet" },
         { "pattern": "/usr/local/bin/godot" },
         { "pattern": "/usr/bin/curl" },

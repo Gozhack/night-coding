@@ -11,7 +11,16 @@
         }
       },
       "bootstrapMaxChars": 10000,
-      "bootstrapTotalMaxChars": 30000
+      "bootstrapTotalMaxChars": 30000,
+      "heartbeat": {
+        "every": "25m",
+        "activeHours": {
+          "start": "23:00",
+          "end": "08:00",
+          "timezone": "America/Mexico_City"
+        },
+        "prompt": "Corre UN ciclo del loop nocturno siguiendo HEARTBEAT.md: toma la siguiente tarea pendiente de /repo/workspace/BACKLOG.md, delega al Gemini CLI, valida con godot --headless, commitea+pushea a master y reporta por Telegram. Si no hay tareas, manda un beat-alive corto y termina. Una tarea por heartbeat."
+      }
     }
   },
   "meta": {

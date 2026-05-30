@@ -2,7 +2,10 @@ services:
   openclaw-agent:
     build: .
     container_name: openclaw_sandbox
-    command: node openclaw.mjs gateway --allow-unconfigured --password ${OPENCLAW_PASSWORD:-sandbox}
+    # El arranque pasa por container-init.sh: configura git (para que Chappie pueda
+    # commit/push desde el contenedor) y luego exec'ea el gateway. El repo se monta
+    # completo en /repo, así que el script está disponible en /repo/.openclaw_config/.
+    command: bash /repo/.openclaw_config/container-init.sh
     environment:
       # IMPORTANTE: esta key DEBE ser de un proyecto SIN billing (free tier de AI Studio).
       # La usa SOLO el cerebro de Chappie (OpenClaw) con gemini-2.5-flash. Si topa el rate
@@ -10,18 +13,31 @@ services:
       - GEMINI_API_KEY=${GEMINI_API_KEY}
       - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
       - TELEGRAM_CHAT_ID=${TELEGRAM_CHAT_ID}
+      - OPENCLAW_PASSWORD=${OPENCLAW_PASSWORD:-sandbox}
       - OPENCLAW_GATEWAY_MODE=local
       - OPENCLAW_GATEWAY_BIND=127.0.0.1
       - OPENCLAW_PLUGINS_OPENAI_ENABLED=false
       - OPENCLAW_PROVIDERS_GOOGLE_DEFAULT_MODEL=google/gemini-2.5-flash
       # El Gemini CLI en modo headless no corre herramientas en un folder "no confiable".
-      # Marcamos /workspace como confiable de forma global para que las delegaciones
+      # Marcamos el workspace como confiable de forma global para que las delegaciones
       # de Chappie al CLI no fallen con "not running in a trusted directory".
       - GEMINI_CLI_TRUST_WORKSPACE=true
+      # Credenciales/identidad para que Chappie pueda pushear a GitHub desde el contenedor.
+      # GITHUB_TOKEN: PAT con scope 'repo' (idealmente fine-grained a night-coding). En .env.
+      - GITHUB_TOKEN=${GITHUB_TOKEN:-}
+      - GIT_USER_NAME=${GIT_USER_NAME:-Chappie}
+      - GIT_USER_EMAIL=${GIT_USER_EMAIL:-chappie@night-coding.local}
     volumes:
-      - ./workspace:/workspace
+      # Repo COMPLETO (no solo workspace/): el contenedor necesita ver .git para que
+      # Chappie pueda commitear/pushear. Código Godot en /repo/workspace, .git en /repo/.git.
+      - .:/repo
       # Persiste el login OAuth del Gemini CLI (free tier). Login una sola vez; aquí queda.
       - ./.gemini_cli:/root/.gemini
+      # Persiste la continuidad del bot (MEMORY.md, memory/, HEARTBEAT.md, USER.md, TOOLS.md)
+      # para que sobreviva a 'docker compose up --force-recreate'. NO version-controlado.
+      - ./.openclaw_workspace:/root/.openclaw/workspace
+      # Archivos de personalidad version-controlados, montados ENCIMA del volumen anterior
+      # (siempre frescos desde .openclaw_config).
       - ./.openclaw_config/SOUL.md:/root/.openclaw/workspace/SOUL.md
       - ./.openclaw_config/IDENTITY.md:/root/.openclaw/workspace/IDENTITY.md
       - ./.openclaw_config/AGENTS.md:/root/.openclaw/workspace/AGENTS.md

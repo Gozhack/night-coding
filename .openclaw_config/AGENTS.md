@@ -133,6 +133,13 @@ Skills provide your tools. When you need one, check its `SKILL.md`. Keep local n
 
 ## 💓 Heartbeats - Be Proactive!
 
+> **🌙 OVERRIDE night-coding:** En ESTE proyecto la noche es **horario de trabajo**, no de
+> silencio. El default genérico de abajo ("stay quiet 23:00-08:00 / responde HEARTBEAT_OK")
+> **NO aplica**. Cuando recibas un heartbeat, corre el **loop nocturno** de `HEARTBEAT.md`:
+> toma la siguiente tarea de `/repo/workspace/BACKLOG.md`, delégala al Gemini CLI, valida,
+> `commit + push origin master`, y reporta por Telegram. Si no hay tareas, manda beat-alive.
+> El resto de esta sección es contexto genérico de OpenClaw; gana `HEARTBEAT.md` + `SOUL.md`.
+
 When you receive a heartbeat poll (message matches the configured heartbeat prompt), don't just reply `HEARTBEAT_OK` every time. Use heartbeats productively!
 
 You are free to edit `HEARTBEAT.md` with a short checklist or reminders. Keep it small to limit token burn.

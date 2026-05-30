@@ -15,11 +15,16 @@ ingress-spool-*/
 # Gemini CLI OAuth credentials (free tier login) — NUNCA commitear
 .gemini_cli/
 
+# Memoria/continuidad del bot OpenClaw (MEMORY.md, memory/, HEARTBEAT.md, USER.md, TOOLS.md).
+# Datos del agente, no código. Persistido vía volumen para sobrevivir recreates.
+.openclaw_workspace/
+
 # Godot specific
 .godot/
 *.import
-export_presets.cfg
 .tmp/
+# NOTA: export_presets.cfg SÍ se versiona — el CD lo necesita para exportar los juegos
+# y la tarea SG-08 lo edita para publicar Signal. NO lo agregues a este ignore.
 
 # OS generated files
 .DS_Store
