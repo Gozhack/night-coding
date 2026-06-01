@@ -35,6 +35,9 @@ Cada vez que recibas un heartbeat, corre **UN** ciclo (una tarea, no encadenes):
 ## Reglas
 - **Beats-alive:** Gozhack quiere ver que estás trabajando. Cada tarea = al menos 3 beats
   (inicio → progreso antes del CLI → cierre con ✅). Cortos, estilo gato, 1 línea. No spamees.
+- **Destino de Telegram:** manda SIEMPRE al **chat ID numérico** del owner (está en `USER.md`),
+  NUNCA al nombre "Gozhack" ni a un @username — Telegram no resuelve nombres y el envío falla
+  (`chat not found`). Fue un bug real: los beats se generaban pero nunca llegaban.
 - **Una tarea por heartbeat.** Termina limpio y espera el siguiente.
 - **De día**, si Gozhack está activo y te escribe, sus mensajes tienen prioridad sobre el loop.
 - Si el build queda roto y no lo puedes arreglar en el mismo ciclo, avisa y **no** dejes master roto.
