@@ -1,8 +1,0 @@
-[gd_scene format=3 uid="uid://b8y8h8h8h8h8h"]
-
-[node name="Main" type="Node2D"]
-
-[node name="Label" type="Label" parent="."]
-offset_right = 40.0
-offset_bottom = 23.0
-text = "Proyecto Noctambulo: Sistema Iniciado"

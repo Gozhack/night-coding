@@ -8,12 +8,16 @@ márcala `[x]`, commitea con el ID en el mensaje (p.ej. `feat(signal): ... (SG-0
 > y promueve una tarea, o manda un beat-alive pidiéndole trabajo a Gozhack. Nunca te quedes sin TODO.
 
 Convenciones (mira `void-tap/` y `grid-runner/` como referencia):
-- Cada juego vive en `workspace/<juego>/` con `scenes/`, `scripts/`, `assets/`.
-- GDScript (no C#), inglés en el código. Validar con `godot --headless --path . --quit`.
+- **Cada juego es su PROPIO proyecto Godot** en `workspace/<juego>/`: su `project.godot` (con
+  `run/main_scene` y sus autoloads), `scenes/`, `scripts/`, `assets/` y `export_presets.cfg`.
+  Rutas internas root-relative (`res://scenes/...`, `res://scripts/...`), **NO** `res://<juego>/...`.
+  (Un solo proyecto con varios juegos rompe: todos los exports bootean el mismo `main_scene`.)
+- GDScript (no C#), inglés en el código. Validar con `godot --headless --path workspace/<juego> --quit`.
 - **Jugable en móvil:** todo juego debe responder a **touch** (no solo teclado).
 - **Nunca dejes placeholders** tipo `...` en el código — rompen el parse (pasó en void-tap).
-- Para publicar un juego: export preset en `export_presets.cfg` (nombre exacto) apuntando a
-  `../build/web/<juego>/index.html`, y una card en `web-hub/index.html`. El CD exporta y deploya a gh-pages.
+- Para publicar: en el `export_presets.cfg` del juego un preset llamado **"Web"** apuntando a
+  `../../build/web/<juego>/index.html`, y una card en `web-hub/index.html`. El CD **auto-descubre**
+  cada `workspace/<juego>/project.godot`, exporta el preset "Web" y deploya todo al **mismo hub**.
 
 ---
 
@@ -36,11 +40,13 @@ Los dos juegos estaban "rotos" (no se pasaba de la pantalla de start). Causas y 
 Juego: aparece una secuencia de colores que se ilumina; el jugador la repite tocando.
 Cada ronda agrega un color. Falla = game over. Objetivo: llegar lo más lejos posible.
 
-- [ ] **SG-01 — Scaffold de la escena.**
-  Crea `workspace/signal/scenes/Main.tscn` y `workspace/signal/scripts/Main.gd`. Una grilla 2x2
-  con 4 botones de color (rojo, verde, azul, amarillo), centrada y responsive. Sin gameplay aún:
-  solo que la escena corra sin errores en `godot --headless --path . --quit`. Layout limpio y
-  fondo oscuro acorde al estilo "noctámbulo" de los otros juegos.
+- [ ] **SG-01 — Scaffold del proyecto + escena.**
+  Crea `workspace/signal/` como **su propio proyecto Godot**: `project.godot` (config/name="Signal",
+  `run/main_scene="res://scenes/Main.tscn"`, features 4.3 + gl_compatibility, autoload propio si lo
+  necesita) y `export_presets.cfg` con un preset **"Web"** → `../../build/web/signal/index.html`.
+  La escena `scenes/Main.tscn` + `scripts/Main.gd`: grilla 2x2 con 4 botones de color (rojo, verde,
+  azul, amarillo), centrada y responsive, fondo oscuro estilo "noctámbulo". Sin gameplay aún: solo
+  que corra sin errores en `godot --headless --path workspace/signal --quit`. Rutas root-relative.
 
 - [ ] **SG-02 — Reproducir la secuencia.**
   Genera una secuencia de colores (empieza con largo 1) y reprodúcela iluminando cada botón por
@@ -67,10 +73,10 @@ Cada ronda agrega un color. Falla = game over. Objetivo: llegar lo más lejos po
   Agrega botón "Back to Menu" (`PROCESS_MODE_ALWAYS`) y la lógica de redirección como en los otros juegos.
 
 - [ ] **SG-08 — Publicar Signal.**
-  Agrega el export preset **"Signal"** en `workspace/export_presets.cfg` apuntando a
-  `../build/web/signal/index.html`, y una card de Signal en `web-hub/index.html` (href
-  `signal/index.html`). Agrega `godot --headless ... --export-release "Signal" ...` en `cd.yml`.
-  **Verifica** que el nombre del preset sea exactamente `Signal`.
+  Agrega una card de Signal en `web-hub/index.html` (href `signal/index.html`). El preset "Web" y el
+  `project.godot` ya se crearon en SG-01, así que el **CD lo exporta solo** (auto-descubre
+  `workspace/signal/project.godot` — no hay que tocar `cd.yml`). Verifica que el preset se llame
+  exactamente **"Web"** y que el `export_path` sea `../../build/web/signal/index.html`.
 
 ---
 
