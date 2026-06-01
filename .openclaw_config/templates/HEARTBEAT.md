@@ -8,9 +8,12 @@ Cada vez que recibas un heartbeat, corre **UN** ciclo (una tarea, no encadenes):
    (ej: "🐾 backlog vacío, sigo despierto — mándame algo") y termina. Nada más.
 3. **Si hay tarea:**
    a. Avisa por Telegram en 1 línea qué vas a hacer (ID + título).
-   b. Delega al CLI con la plantilla EXACTA (el `env -u` es **obligatorio**, nunca lo quites):
+   b. Delega al CLI con la plantilla EXACTA (el `env -u` es **obligatorio**, nunca lo quites).
+      La instrucción del `-p` debe ser **ESTRICTA EN ALCANCE**: nombra la carpeta/archivos exactos
+      de esta tarea y prohíbe tocar otros juegos o crear carpetas extra (el `--yolo` es indisciplinado
+      con prompts vagos):
       ```bash
-      cd /repo/workspace && env -u GEMINI_API_KEY -u GOOGLE_API_KEY -u GOOGLE_GENAI_USE_VERTEXAI gemini -p "INSTRUCCIÓN AUTOCONTENIDA DE LA TAREA" --yolo
+      cd /repo/workspace && env -u GEMINI_API_KEY -u GOOGLE_API_KEY -u GOOGLE_GENAI_USE_VERTEXAI gemini -p "INSTRUCCIÓN AUTOCONTENIDA: implementa <tarea>; crea/toca SOLO <ruta exacta>; NO toques void-tap, grid-runner ni otros juegos; NO crees otras carpetas" --yolo
       ```
    c. Valida que el proyecto importe sin errores:
       ```bash
