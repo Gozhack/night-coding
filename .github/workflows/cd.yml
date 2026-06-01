@@ -26,13 +26,20 @@ jobs:
 
       - name: Export Games
         run: |
-          mkdir -p build/web/void-tap
-          mkdir -p build/web/grid-runner
-          # Importation
-          godot --headless --path workspace --editor --quit
-          # Export each preset
-          godot --headless --path workspace --export-release "Void-Tap" ../build/web/void-tap/index.html
-          godot --headless --path workspace --export-release "Grid-Runner" ../build/web/grid-runner/index.html
+          # Auto-descubre cada juego (workspace/<juego>/project.godot) y exporta el preset "Web"
+          shopt -s nullglob
+          for dir in workspace/*/; do
+            game=$(basename "$dir")
+            [ -f "${dir}project.godot" ] || continue
+            echo "::group::Export $game"
+            mkdir -p "$GITHUB_WORKSPACE/build/web/$game"
+            # Import primero (genera .godot/) con ruta ABSOLUTA
+            godot --headless --path "$GITHUB_WORKSPACE/$dir" --quit 2>&1 | tail -5 || true
+            # Exporta el preset Web con ruta ABSOLUTA
+            godot --headless --path "$GITHUB_WORKSPACE/$dir" --export-release "Web" "$GITHUB_WORKSPACE/build/web/$game/index.html"
+            echo "::endgroup::"
+          done
+          echo "=== Juegos exportados ==="; ls -R build/web
 
       - name: Create Landing Page
         run: |
