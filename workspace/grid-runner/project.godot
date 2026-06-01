@@ -13,6 +13,7 @@ config/features=PackedStringArray("4.3", "gl_compatibility")
 [autoload]
 
 GridGameManager="*res://scripts/GameManager.gd"
+AudioManager="*res://scripts/AudioManager.gd"
 
 [display]
 

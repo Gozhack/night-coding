@@ -30,16 +30,5 @@ scale = Vector2(18, 1)
 position = Vector2(576, 616)
 scale = Vector2(18, 1)
 
-[node name="Obstacles" type="Node2D" parent="."]
-
-[node name="Obs1" parent="Obstacles" instance=ExtResource("3_hazard")]
-position = Vector2(320, 320)
-
-[node name="Obs2" parent="Obstacles" instance=ExtResource("3_hazard")]
-position = Vector2(832, 192)
-
-[node name="Obs3" parent="Obstacles" instance=ExtResource("3_hazard")]
-position = Vector2(576, 448)
-
 [node name="Player" parent="." instance=ExtResource("2_player")]
 position = Vector2(576, 320)

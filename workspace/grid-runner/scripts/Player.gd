@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
-# Player script for Grid-Runner
-# Handles grid-based movement
+# Grid-based movement. Snaps cell-by-cell, clamped to the play area (so the boundary
+# walls don't kill you — only the red hazards do). Keyboard + touch/mouse swipe.
 
 @export var speed: float = 400.0
 @export var grid_size: int = 64
@@ -9,7 +9,6 @@ extends CharacterBody2D
 var target_position: Vector2
 var is_moving: bool = false
 
-# Swipe state (touch + mouse). Lets the grid be played on mobile/web, not just keyboard.
 const SWIPE_THRESHOLD: float = 40.0
 var _swipe_start: Vector2 = Vector2.ZERO
 var _swiping: bool = false
@@ -34,12 +33,19 @@ func _input(event):
 	else:
 		input_dir = _handle_swipe(event)
 
-	if input_dir != Vector2.ZERO:
-		target_position = position + input_dir * grid_size
-		is_moving = true
+	if input_dir == Vector2.ZERO:
+		return
 
-# Detect a swipe from touch (mobile) or left mouse drag (desktop web) and return
-# the dominant cardinal direction on release. Returns ZERO until a swipe completes.
+	var t = position + input_dir * grid_size
+	# Clamp to the play area so we never step onto the boundary walls.
+	t.x = clamp(t.x, GridGameManager.MIN_X, GridGameManager.MAX_X)
+	t.y = clamp(t.y, GridGameManager.MIN_Y, GridGameManager.MAX_Y)
+	if t != position:
+		target_position = t
+		is_moving = true
+		if AudioManager:
+			AudioManager.play_move()
+
 func _handle_swipe(event) -> Vector2:
 	var pos = Vector2.ZERO
 	var pressed = false
@@ -71,17 +77,11 @@ func _handle_swipe(event) -> Vector2:
 func _physics_process(delta):
 	if not is_moving:
 		return
-
-	# Snap exactly once this frame's step would reach/overshoot the target. Using a fixed
-	# 2px window was buggy: the per-frame step (speed/60 ≈ 6.7px) is larger than 2px, so the
-	# player oscillated around the target and is_moving never cleared -> input froze.
 	var step = speed * delta
 	if position.distance_to(target_position) <= step:
 		position = target_position
 		velocity = Vector2.ZERO
 		is_moving = false
-		if GridGameManager:
-			GridGameManager.add_score(1)
 	else:
 		velocity = (target_position - position).normalized() * speed
 		move_and_slide()
