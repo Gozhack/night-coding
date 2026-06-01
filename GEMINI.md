@@ -35,7 +35,7 @@ Las credenciales quedan en `./.gemini_cli/` (volumen persistente, en `.gitignore
 - **Docker:** Contenedor `openclaw_sandbox` corriendo Node.js + OpenClaw Gateway.
 - **Workspace:** Mapeado a `./workspace` en el host.
 - **Tecnología:** Godot 4.x (.NET) con .NET 8 pre-instalado.
-- **Source Control:** Repositorio privado en GitHub ([Gozhack/night-coding](https://github.com/Gozhack/night-coding)). Rama principal: `master`.
+- **Source Control:** Repositorio **PÚBLICO** en GitHub ([Gozhack/night-coding](https://github.com/Gozhack/night-coding)). Rama principal: `master`. ⚠️ **NUNCA commitees secretos** (tokens, API keys, chat IDs): el repo es público. Todo dato sensible va en `.env` (gitignored) o en el volumen vivo del bot, nunca en archivos versionados.
 
 ## 🧠 Agent Synchronization
 - **Backlog:** `workspace/BACKLOG.md` es la fuente de verdad de qué trabajar. Una tarea = un commit = un deploy.
