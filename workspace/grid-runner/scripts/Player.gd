@@ -68,18 +68,20 @@ func _handle_swipe(event) -> Vector2:
 
 	return Vector2.ZERO
 
-func _physics_process(_delta):
-	if is_moving:
-		var direction = (target_position - position).normalized()
-		var distance = position.distance_to(target_position)
-		
-		if distance > 2.0:
-			velocity = direction * speed
-			move_and_slide()
-		else:
-			position = target_position
-			velocity = Vector2.ZERO
-			if is_moving:
-				is_moving = false
-				if GridGameManager:
-					GridGameManager.add_score(1)
+func _physics_process(delta):
+	if not is_moving:
+		return
+
+	# Snap exactly once this frame's step would reach/overshoot the target. Using a fixed
+	# 2px window was buggy: the per-frame step (speed/60 ≈ 6.7px) is larger than 2px, so the
+	# player oscillated around the target and is_moving never cleared -> input froze.
+	var step = speed * delta
+	if position.distance_to(target_position) <= step:
+		position = target_position
+		velocity = Vector2.ZERO
+		is_moving = false
+		if GridGameManager:
+			GridGameManager.add_score(1)
+	else:
+		velocity = (target_position - position).normalized() * speed
+		move_and_slide()
