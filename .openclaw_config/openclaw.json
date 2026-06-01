@@ -15,7 +15,7 @@
       "heartbeat": {
         "every": "25m",
         "target": "telegram",
-        "to": "1121010004",
+        "to": "${TELEGRAM_CHAT_ID}",
         "activeHours": {
           "start": "23:00",
           "end": "08:00",
@@ -36,7 +36,7 @@
   },
   "commands": {
     "ownerAllowFrom": [
-      "telegram:1121010004"
+      "telegram:${TELEGRAM_CHAT_ID}"
     ]
   }
 }
