@@ -48,7 +48,7 @@ Cada ronda agrega un color. Falla = game over. Objetivo: llegar lo más lejos po
   azul, amarillo), centrada y responsive, fondo oscuro estilo "noctámbulo". Sin gameplay aún: solo
   que corra sin errores en `godot --headless --path workspace/signal --quit`. Rutas root-relative.
 
-- [ ] **SG-02 — Reproducir la secuencia.**
+- [x] **SG-02 — Reproducir la secuencia.**
   Genera una secuencia de colores (empieza con largo 1) y reprodúcela iluminando cada botón por
   turno (highlight + apagado, con timing legible). Estado de juego claro (IDLE / PLAYING_SEQUENCE).
 
