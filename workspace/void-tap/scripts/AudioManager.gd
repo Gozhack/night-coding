@@ -15,6 +15,9 @@ func _ready():
 	audio_player.stream = stream
 	add_child(audio_player)
 	
+	# Must call play() before get_stream_playback()
+	audio_player.play()
+	
 	# Get the playback object
 	generator = audio_player.get_stream_playback()
 	if not generator:
@@ -24,8 +27,6 @@ func _ready():
 	# Pre-fill buffer with silence to avoid initial playback error
 	for i in range(generator.get_frames_available()):
 		generator.push_frame(Vector2.ZERO)
-		
-	audio_player.play()
 
 # Simple beep sound
 func play_beep(freq: float = 440.0, duration: float = 0.1):

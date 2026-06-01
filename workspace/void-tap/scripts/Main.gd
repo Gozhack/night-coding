@@ -51,7 +51,7 @@ func _setup_start_menu_animations():
 	var title = get_node_or_null("UI/StartMenu/Title")
 	
 	if play_button:
-		play_button.pressed.connect(_on_play_pressed)
+		# Signal connection is handled in Main.tscn
 		var tween = create_tween().set_loops()
 		tween.tween_property(play_button, "scale", Vector2(1.1, 1.1), 0.6).set_trans(Tween.TRANS_SINE)
 		tween.tween_property(play_button, "scale", Vector2(1.0, 1.0), 0.6).set_trans(Tween.TRANS_SINE)
