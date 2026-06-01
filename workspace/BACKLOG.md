@@ -40,7 +40,7 @@ Los dos juegos estaban "rotos" (no se pasaba de la pantalla de start). Causas y 
 Juego: aparece una secuencia de colores que se ilumina; el jugador la repite tocando.
 Cada ronda agrega un color. Falla = game over. Objetivo: llegar lo más lejos posible.
 
-- [ ] **SG-01 — Scaffold del proyecto + escena.**
+- [x] **SG-01 — Scaffold del proyecto + escena.**
   Crea `workspace/signal/` como **su propio proyecto Godot**: `project.godot` (config/name="Signal",
   `run/main_scene="res://scenes/Main.tscn"`, features 4.3 + gl_compatibility, autoload propio si lo
   necesita) y `export_presets.cfg` con un preset **"Web"** → `../../build/web/signal/index.html`.
