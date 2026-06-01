@@ -25,9 +25,9 @@ jobs:
           rm -f Godot_v4.3-stable_export_templates.tpz
 
       - name: Export Games
+        shell: bash
         run: |
           # Auto-descubre cada juego (workspace/<juego>/project.godot) y exporta el preset "Web"
-          shopt -s nullglob
           for dir in workspace/*/; do
             game=$(basename "$dir")
             [ -f "${dir}project.godot" ] || continue
