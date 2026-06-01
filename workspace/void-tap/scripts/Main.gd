@@ -17,18 +17,24 @@ var shake_intensity: float = 0.0
 var shake_decay: float = 5.0
 
 func _ready():
-	# UI References
-	start_menu = get_node("UI/StartMenu")
-	hud = get_node("UI/HUD")
-	game_over_screen = get_node("UI/GameOverScreen")
-	score_label = get_node("UI/HUD/ScoreLabel")
-	level_label = get_node("UI/HUD/LevelLabel")
-	final_score_label = get_node("UI/GameOverScreen/FinalScoreLabel")
-	high_score_label = get_node("UI/GameOverScreen/HighScoreLabel")
+	# UI References (with null checks for safety)
+	start_menu = get_node_or_null("UI/StartMenu")
+	hud = get_node_or_null("UI/HUD")
+	game_over_screen = get_node_or_null("UI/GameOverScreen")
+	score_label = get_node_or_null("UI/HUD/ScoreLabel")
+	level_label = get_node_or_null("UI/HUD/LevelLabel")
+	final_score_label = get_node_or_null("UI/GameOverScreen/FinalScoreLabel")
+	high_score_label = get_node_or_null("UI/GameOverScreen/HighScoreLabel")
 	
-	spawner = get_node("Spawner")
-	camera = get_node("Camera2D")
+	spawner = get_node_or_null("Spawner")
+	camera = get_node_or_null("Camera2D")
 	
+	# Failsafe: If essential nodes are missing, don't initialize the game.
+	# This avoids crashes on start. The screen will be blank if something is wrong.
+	if not start_menu or not hud or not game_over_screen or not spawner or not camera:
+		print("CRITICAL ERROR: One or more essential nodes are missing in Main.tscn.")
+		return
+
 	# Initial State
 	start_menu.visible = true
 	hud.visible = false
@@ -92,11 +98,21 @@ func _process(delta):
 		camera.offset = Vector2.ZERO
 
 func _on_play_pressed():
-	start_menu.visible = false
-	hud.visible = true
-	game_over_screen.visible = false
+	# Failsafe checks for nodes
+	if start_menu:
+		start_menu.visible = false
+	if hud:
+		hud.visible = true
+	if game_over_screen:
+		game_over_screen.visible = false
+
+	# This is a global singleton, should be safe
 	VoidGameManager.start_game()
-	spawner.start_spawning()
+
+	if spawner:
+		spawner.start_spawning()
+	else:
+		print("ERROR: Spawner node not found, cannot start spawning obstacles.")
 
 func _on_restart_pressed():
 	# Clear existing obstacles
