@@ -41,11 +41,11 @@ services:
 
 The workspace is organized to support multiple prototypes and shared logic:
 
-*   `workspace/`: Main Godot project folder.
-*   `workspace/void-tap/`: Prototype for a simple vertical tapping game.
-*   `workspace/grid-runner/`: Prototype for a grid-based movement game.
-*   `workspace/scripts/`: Shared logic and base classes.
-*   `workspace/scenes/`: Common scenes.
+*   `workspace/`: Carpeta contenedora — **cada subcarpeta es un proyecto Godot independiente**.
+*   `workspace/void-tap/`: Juego de tapping vertical (proyecto Godot propio: `project.godot`, `scenes/`, `scripts/`).
+*   `workspace/grid-runner/`: Juego de movimiento por grilla (proyecto Godot propio).
+*   `workspace/signal/`: Juego de memoria de colores estilo Simón (proyecto Godot propio).
+*   `web-hub/`: Landing/hub con las cards; el CD lo publica junto a los juegos en gh-pages (mismo sitio).
 
 ## 4. Development Workflow
 

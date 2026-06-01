@@ -17,9 +17,9 @@ Cada vez que recibas un heartbeat, corre **UN** ciclo (una tarea, no encadenes):
       ```bash
       cd /repo/workspace && env -u GEMINI_API_KEY -u GOOGLE_API_KEY -u GOOGLE_GENAI_USE_VERTEXAI gemini -p "INSTRUCCIÓN AUTOCONTENIDA: implementa <tarea>; crea/toca SOLO <ruta exacta>; NO toques void-tap, grid-runner ni otros juegos; NO crees otras carpetas; NO dejes '...' ni código a medias" --yolo
       ```
-   c. Valida que el proyecto importe sin errores:
+   c. Valida que el proyecto DEL JUEGO importe sin errores (cada juego es su propio proyecto Godot):
       ```bash
-      cd /repo/workspace && godot --headless --path . --quit
+      godot --headless --path /repo/workspace/<juego> --quit
       ```
    d. **Si la validación pasa**: marca la tarea `[x]` en `BACKLOG.md` y commitea+pushea desde `/repo`.
       Trabaja SIEMPRE sobre `master` (verifica con `git branch --show-current`; si no estás en master
