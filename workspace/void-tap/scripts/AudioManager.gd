@@ -36,6 +36,19 @@ func play_level_up(level: int):
 	_generate_tone(base_freq, 0.1, 0.3)
 	_generate_tone(base_freq * 1.5, 0.12, 0.2)
 
+# Bright blip when collecting an orb.
+func play_collect():
+	resume_audio()
+	_generate_tone(880.0, 0.05, 0.18)
+	_generate_tone(1320.0, 0.06, 0.14)
+
+# Richer ascending chime when grabbing a shield power-up.
+func play_shield():
+	resume_audio()
+	_generate_tone(660.0, 0.07, 0.2)
+	_generate_tone(990.0, 0.09, 0.18)
+	_generate_tone(1320.0, 0.11, 0.16)
+
 # Descending noise burst on death.
 func play_death():
 	resume_audio()

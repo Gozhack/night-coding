@@ -65,6 +65,7 @@ func _setup_start_menu_animations():
 		VoidGameManager.player_died.connect(_on_player_died)
 		VoidGameManager.score_updated.connect(_on_score_updated)
 		VoidGameManager.level_up.connect(_on_level_up)
+		VoidGameManager.effect.connect(_on_effect)
 	
 	# Set Background to solid black (as requested by Gozhack)
 	var bg = get_node("Background")
@@ -132,7 +133,10 @@ func _on_restart_pressed():
 func _on_player_died():
 	hud.visible = false
 	game_over_screen.visible = true
-	var final_score = int(VoidGameManager.current_score)
+	var player = get_node_or_null("Player")
+	if player:
+		_burst(player.global_position, Color("#ff2244"), 40)
+	var final_score = VoidGameManager.score()
 	final_score_label.text = "SCORE: " + str(final_score)
 	
 	if final_score >= VoidGameManager.high_score:
@@ -178,3 +182,51 @@ func _on_menu_pressed():
 		JavaScriptBridge.eval("window.location.href = '../index.html'")
 	else:
 		get_tree().quit()
+
+# --- Juice (orbs, shields, near-misses, death) ---
+
+func _on_effect(kind: String, world_pos: Vector2):
+	match kind:
+		"collect":
+			_burst(world_pos, Color("#00ffcc"), 16)
+			_popup("+5", world_pos, Color("#00ffcc"))
+		"shield":
+			_burst(world_pos, Color("#ffcc33"), 24)
+			_popup("SHIELD", world_pos, Color("#ffcc33"))
+		"near_miss":
+			_popup("+1", world_pos, Color("#aaffff"))
+
+func _burst(pos: Vector2, color: Color, amount: int = 18):
+	var p = CPUParticles2D.new()
+	p.process_mode = Node.PROCESS_MODE_ALWAYS  # play even during the game-over pause
+	p.position = pos
+	p.emitting = true
+	p.one_shot = true
+	p.explosiveness = 1.0
+	p.amount = amount
+	p.lifetime = 0.5
+	p.spread = 180.0
+	p.gravity = Vector2.ZERO
+	p.initial_velocity_min = 80.0
+	p.initial_velocity_max = 220.0
+	p.scale_amount_min = 2.0
+	p.scale_amount_max = 5.0
+	var g = Gradient.new()
+	g.add_point(0.0, color)
+	g.add_point(1.0, Color(color.r, color.g, color.b, 0.0))
+	p.color_ramp = g
+	add_child(p)
+	get_tree().create_timer(1.0).timeout.connect(p.queue_free)
+
+func _popup(text: String, pos: Vector2, color: Color):
+	var l = Label.new()
+	l.text = text
+	l.add_theme_font_size_override("font_size", 28)
+	l.modulate = color
+	l.z_index = 100
+	l.position = pos - Vector2(20, 20)
+	add_child(l)
+	var tw = create_tween()
+	tw.tween_property(l, "position:y", l.position.y - 50.0, 0.7)
+	tw.parallel().tween_property(l, "modulate:a", 0.0, 0.7)
+	tw.tween_callback(l.queue_free)
