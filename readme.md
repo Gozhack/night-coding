@@ -55,5 +55,7 @@ The agent follows an autonomous "Plan-Act-Validate" cycle:
 3.  **Implementation:** Write GDScript code and update `.tscn` files.
 4.  **Verification:** Run Godot in headless mode to verify no loading errors and trigger CI/CD for Web deployment.
 
+> 🚀 **Deploy en vivo:** cada push a `master` exporta los juegos y publica en https://gozhack.github.io/night-coding/ . Al terminar, el CD avisa por Telegram (éxito o fallo) usando los secrets `TELEGRAM_BOT_TOKEN` y `TELEGRAM_CHAT_ID`.
+
 ---
 *Note: The project was migrated from C# to GDScript to ensure full compatibility with Godot 4 Web (HTML5) exports.*
