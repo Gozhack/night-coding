@@ -52,27 +52,27 @@ Cada ronda agrega un color. Falla = game over. Objetivo: llegar lo más lejos po
   Genera una secuencia de colores (empieza con largo 1) y reprodúcela iluminando cada botón por
   turno (highlight + apagado, con timing legible). Estado de juego claro (IDLE / PLAYING_SEQUENCE).
 
-- [ ] **SG-03 — Input del jugador.**
+- [x] **SG-03 — Input del jugador.**
   Tras reproducir, el jugador toca los botones. Compara cada tap contra la secuencia esperada.
   Si acierta toda la secuencia → ronda superada. Si falla un color → señal de error.
 
-- [ ] **SG-04 — Progresión de dificultad.**
+- [x] **SG-04 — Progresión de dificultad.**
   Al superar la ronda, agrega un color nuevo a la secuencia y repite. Pequeña pausa + feedback
   visual entre rondas. La velocidad de reproducción puede subir levemente con el nivel.
 
-- [ ] **SG-05 — Game over + reinicio.**
+- [x] **SG-05 — Game over + reinicio.**
   Si el jugador falla, muestra pantalla de Game Over con el score (nivel/rondas alcanzadas) y
   opción de reiniciar. Estilo consistente con void-tap/grid-runner.
 
-- [ ] **SG-06 — Audio procedural.**
+- [x] **SG-06 — Audio procedural.**
   Un tono distinto por color (mira `void-tap/scripts/AudioManager.gd` como referencia de audio
   procedural). Suena tanto en la reproducción de la secuencia como en los taps del jugador.
 
-- [ ] **SG-07 — Récord persistente + back to menu.**
+- [x] **SG-07 — Récord persistente + back to menu.**
   Guarda el mejor score en `user://` y muestra indicador "new best" al superarlo (como void-tap).
   Agrega botón "Back to Menu" (`PROCESS_MODE_ALWAYS`) y la lógica de redirección como en los otros juegos.
 
-- [ ] **SG-08 — Publicar Signal.**
+- [x] **SG-08 — Publicar Signal.**
   Agrega una card de Signal en `web-hub/index.html` (href `signal/index.html`). El preset "Web" y el
   `project.godot` ya se crearon en SG-01, así que el **CD lo exporta solo** (auto-descubre
   `workspace/signal/project.godot` — no hay que tocar `cd.yml`). Verifica que el preset se llame

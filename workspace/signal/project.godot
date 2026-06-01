@@ -1,17 +1,24 @@
+; Engine configuration file.
+; Signal — proyecto Godot independiente (juego de memoria de colores, estilo Simón).
+
 config_version=5
 
 [application]
 
 config/name="Signal"
 run/main_scene="res://scenes/Main.tscn"
-config/features=PackedStringArray("4.2", "Forward Plus")
-config/icon="res://icon.svg"
+config/features=PackedStringArray("4.3", "gl_compatibility")
 
-[debug]
+[display]
 
-gdscript/warnings/unused_variable=1
+window/size/viewport_width=1152
+window/size/viewport_height=648
+window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"
+window/handheld/orientation=1
 
 [rendering]
 
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+environment/defaults/default_clear_color=Color(0.0588235, 0.0901961, 0.164706, 1)
