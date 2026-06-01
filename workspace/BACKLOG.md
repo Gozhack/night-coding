@@ -1,6 +1,6 @@
 # BACKLOG — night-coding
 
-Chappie trabaja este backlog de noche (ver `HEARTBEAT.md`). **Una tarea = un commit = un deploy.**
+Naru trabaja este backlog de noche (ver `HEARTBEAT.md`). **Una tarea = un commit = un deploy.**
 Toma siempre la **primera** tarea `[ ]` de arriba hacia abajo. Al terminarla y validarla,
 márcala `[x]`, commitea con el ID en el mensaje (`feat(signal): ... (SG-01)`) y pushea a `master`.
 

@@ -2,12 +2,12 @@ services:
   openclaw-agent:
     build: .
     container_name: openclaw_sandbox
-    # El arranque pasa por container-init.sh: configura git (para que Chappie pueda
+    # El arranque pasa por container-init.sh: configura git (para que Naru pueda
     # commit/push desde el contenedor) y luego exec'ea el gateway. El repo se monta
     # completo en /repo, así que el script está disponible en /repo/.openclaw_config/.
     command: bash /repo/.openclaw_config/container-init.sh
     environment:
-      # CEREBRO de Chappie: Claude-Haiku vía API de Anthropic (orquestador). OJO: esta key
+      # CEREBRO de Naru: Claude-Haiku vía API de Anthropic (orquestador). OJO: esta key
       # SÍ factura por token — ponle un límite de gasto duro en la consola de Anthropic.
       # Haiku solo ORQUESTA (lee backlog, escribe specs precisos, valida diffs, decide commit);
       # el código pesado lo escribe el Gemini CLI gratis. OpenClaw toma la key de esta env var.
@@ -23,16 +23,16 @@ services:
       - OPENCLAW_PLUGINS_OPENAI_ENABLED=false
       # El Gemini CLI en modo headless no corre herramientas en un folder "no confiable".
       # Marcamos el workspace como confiable de forma global para que las delegaciones
-      # de Chappie al CLI no fallen con "not running in a trusted directory".
+      # de Naru al CLI no fallen con "not running in a trusted directory".
       - GEMINI_CLI_TRUST_WORKSPACE=true
-      # Credenciales/identidad para que Chappie pueda pushear a GitHub desde el contenedor.
+      # Credenciales/identidad para que Naru pueda pushear a GitHub desde el contenedor.
       # GITHUB_TOKEN: PAT con scope 'repo' (idealmente fine-grained a night-coding). En .env.
       - GITHUB_TOKEN=${GITHUB_TOKEN:-}
-      - GIT_USER_NAME=${GIT_USER_NAME:-Chappie}
-      - GIT_USER_EMAIL=${GIT_USER_EMAIL:-chappie@night-coding.local}
+      - GIT_USER_NAME=${GIT_USER_NAME:-Naru}
+      - GIT_USER_EMAIL=${GIT_USER_EMAIL:-naru@night-coding.local}
     volumes:
       # Repo COMPLETO (no solo workspace/): el contenedor necesita ver .git para que
-      # Chappie pueda commitear/pushear. Código Godot en /repo/workspace, .git en /repo/.git.
+      # Naru pueda commitear/pushear. Código Godot en /repo/workspace, .git en /repo/.git.
       - .:/repo
       # Persiste el login OAuth del Gemini CLI (free tier). Login una sola vez; aquí queda.
       - ./.gemini_cli:/root/.gemini

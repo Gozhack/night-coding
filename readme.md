@@ -8,8 +8,8 @@ This document defines the autonomous execution environment, infrastructure confi
 The execution environment is an isolated Ubuntu sandbox. The agent has full permissions within the Docker container to create, modify, and delete files, as well as install system dependencies required for Godot 4.x.
 
 ### Required Technical Stack:
-*   **Dispatcher/Persona:** OpenClaw (Chappie) — Telegram + `gemini-2.5-flash` sobre **API key free tier sin billing**.
-*   **Coding engine:** Gemini CLI oficial sobre **free tier de OAuth** (cuota aparte), invocado por Chappie.
+*   **Dispatcher/Persona:** OpenClaw (Naru) — Telegram + `gemini-2.5-flash` sobre **API key free tier sin billing**.
+*   **Coding engine:** Gemini CLI oficial sobre **free tier de OAuth** (cuota aparte), invocado por Naru.
 *   **Engine:** Godot Engine 4.x (Standard version).
 *   **Language:** GDScript.
 *   **Notification Interface:** Telegram Bot API.

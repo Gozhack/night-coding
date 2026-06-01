@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # container-init.sh — arranque del contenedor OpenClaw.
-# Configura git para que Chappie pueda commitear/pushear a night-coding DESDE el
+# Configura git para que Naru pueda commitear/pushear a night-coding DESDE el
 # contenedor (el repo se monta completo en /repo), siembra los archivos de
 # continuidad del bot si faltan, y luego arranca el gateway.
 #
@@ -15,8 +15,8 @@ echo "[container-init] configurando git para $REPO ..."
 
 # Identidad + safe.directory (el mount es de otro uid -> git lo marca "dubious ownership").
 git config --global --add safe.directory "$REPO" 2>/dev/null || true
-git config --global user.name  "${GIT_USER_NAME:-Chappie}"  2>/dev/null || true
-git config --global user.email "${GIT_USER_EMAIL:-chappie@night-coding.local}" 2>/dev/null || true
+git config --global user.name  "${GIT_USER_NAME:-Naru}"  2>/dev/null || true
+git config --global user.email "${GIT_USER_EMAIL:-naru@night-coding.local}" 2>/dev/null || true
 git config --global credential.helper store 2>/dev/null || true
 
 # Credenciales de push HTTPS, SIN incrustar el token en la URL del remoto.
@@ -25,7 +25,7 @@ if [ -n "${GITHUB_TOKEN:-}" ]; then
   chmod 600 /root/.git-credentials
   echo "[container-init] credenciales github.com listas (push habilitado)"
 else
-  echo "[container-init] WARNING: GITHUB_TOKEN vacio -> Chappie podra commit local pero NO push"
+  echo "[container-init] WARNING: GITHUB_TOKEN vacio -> Naru podra commit local pero NO push"
 fi
 
 # Sembrar continuidad del bot en el volumen persistente, solo si falta (el bot
