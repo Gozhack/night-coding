@@ -106,6 +106,10 @@ func _on_play_pressed():
 	if game_over_screen:
 		game_over_screen.visible = false
 
+	# Ensure audio starts after user gesture (VT-04)
+	if AudioManager:
+		AudioManager.resume_audio()
+
 	# This is a global singleton, should be safe
 	VoidGameManager.start_game()
 
