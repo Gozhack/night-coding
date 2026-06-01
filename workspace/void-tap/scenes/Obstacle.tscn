@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://e1v2v3v4v5v6v7"]
 
-[ext_resource type="Script" path="res://void-tap/scripts/Obstacle.gd" id="1_script"]
+[ext_resource type="Script" path="res://scripts/Obstacle.gd" id="1_script"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_obstacle"]
 radius = 30.0

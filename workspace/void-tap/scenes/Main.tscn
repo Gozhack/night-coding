@@ -1,9 +1,9 @@
 [gd_scene load_steps=7 format=3 uid="uid://bdl6m1sli8bvy"]
 
-[ext_resource type="Script" path="res://void-tap/scripts/Main.gd" id="1_main"]
-[ext_resource type="PackedScene" uid="uid://b5a0xj2ul16pu" path="res://void-tap/scenes/Player.tscn" id="2_player"]
-[ext_resource type="Script" path="res://void-tap/scripts/Spawner.gd" id="3_spawner"]
-[ext_resource type="PackedScene" uid="uid://kxdcjjcgff23" path="res://void-tap/scenes/Obstacle.tscn" id="4_obstacle"]
+[ext_resource type="Script" path="res://scripts/Main.gd" id="1_main"]
+[ext_resource type="PackedScene" uid="uid://b5a0xj2ul16pu" path="res://scenes/Player.tscn" id="2_player"]
+[ext_resource type="Script" path="res://scripts/Spawner.gd" id="3_spawner"]
+[ext_resource type="PackedScene" uid="uid://kxdcjjcgff23" path="res://scenes/Obstacle.tscn" id="4_obstacle"]
 
 [sub_resource type="Environment" id="Environment_bloom"]
 background_mode = 3
