@@ -1,6 +1,6 @@
 extends Control
 
-enum GameState { IDLE, PLAYING_SEQUENCE }
+enum GameState { IDLE, PLAYING_SEQUENCE, WAITING_INPUT }
 
 const RED = Color("#ef4444")
 const GREEN = Color("#22c55e")
@@ -15,7 +15,8 @@ const YELLOW = Color("#eab308")
 
 @onready var buttons = [red_button, green_button, blue_button, yellow_button]
 var sequence: Array[int] = []
-var state: GameState = GameState.IDLE
+var current_level: int = 0
+var game_state: GameState = GameState.IDLE
 
 func _ready():
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -24,7 +25,7 @@ func _ready():
 	for i in range(buttons.size()):
 		unhighlight_button(i)
 	
-	# Connect buttons (placeholders for now)
+	# Connect buttons
 	red_button.pressed.connect(_on_button_pressed.bind(0))
 	green_button.pressed.connect(_on_button_pressed.bind(1))
 	blue_button.pressed.connect(_on_button_pressed.bind(2))
@@ -33,34 +34,40 @@ func _ready():
 	print("Signal game initialized")
 	
 	# SG-02: Start game
-	state = GameState.IDLE
-	sequence = []
-	generate_sequence()
-	play_sequence()
+	_generate_sequence()
+	_play_sequence()
 
-func generate_sequence():
+func _generate_sequence():
 	sequence.append(randi() % 4)
+	current_level = sequence.size()
 
-func play_sequence():
-	state = GameState.PLAYING_SEQUENCE
+func _play_sequence():
+	game_state = GameState.PLAYING_SEQUENCE
 	for index in sequence:
+		var color_name = ""
+		match index:
+			0: color_name = "RED"
+			1: color_name = "GREEN"
+			2: color_name = "BLUE"
+			3: color_name = "YELLOW"
+		print("DEBUG: Illuminating ", color_name)
+		
 		highlight_button(index)
 		await get_tree().create_timer(0.5).timeout
 		unhighlight_button(index)
 		await get_tree().create_timer(0.3).timeout
-	state = GameState.IDLE
+	
+	game_state = GameState.WAITING_INPUT
 
 func highlight_button(index: int):
 	var btn = buttons[index]
 	var color = _get_color_for_index(index)
-	# Set to original color but boosted/brightened
 	btn.modulate = color
 	btn.self_modulate = Color(2.5, 2.5, 2.5, 1.0) # Very bright
 
 func unhighlight_button(index: int):
 	var btn = buttons[index]
 	var color = _get_color_for_index(index)
-	# Restore to original color
 	btn.modulate = color
 	btn.self_modulate = Color(1.0, 1.0, 1.0, 1.0)
 
@@ -73,11 +80,10 @@ func _get_color_for_index(index: int) -> Color:
 		_: return Color.WHITE
 
 func _on_button_pressed(index: int):
-	if state == GameState.PLAYING_SEQUENCE:
+	if game_state != GameState.WAITING_INPUT:
 		return
 	
 	print("Button pressed: ", index)
-	# Temporary: highlight on press
 	highlight_button(index)
 	await get_tree().create_timer(0.2).timeout
 	unhighlight_button(index)
