@@ -38,8 +38,7 @@ func _ready():
 	# Start Menu Animations (VT-02)
 	_setup_start_menu_animations()
 	
-	# Signal Connections
-...
+	# Signal connections live in _setup_start_menu_animations() below.
 
 func _setup_start_menu_animations():
 	var play_button = get_node_or_null("UI/StartMenu/PlayButton")

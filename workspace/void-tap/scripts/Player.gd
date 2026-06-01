@@ -19,8 +19,8 @@ func _ready():
 	# Setup Trail (VT-05)
 	_setup_trail()
 	
-	# Hide the existing ColorRect if it exists (we'll draw our own)
-...
+	# The existing ColorRect (if any) is hidden in _setup_trail() below.
+
 func _setup_trail():
 	trail = CPUParticles2D.new()
 	add_child(trail)
