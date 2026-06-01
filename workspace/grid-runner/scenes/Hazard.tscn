@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://h1v2v3v4v5v6v7"]
 
-[ext_resource type="Script" path="res://grid-runner/scripts/Hazard.gd" id="1_script"]
+[ext_resource type="Script" path="res://scripts/Hazard.gd" id="1_script"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_h"]
 size = Vector2(64, 64)
