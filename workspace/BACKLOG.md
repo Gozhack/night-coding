@@ -101,7 +101,7 @@ muy rápido o muy inclinado = choque. Arte **100% vectorial dibujado por código
   que corra sin errores en `godot --headless --path workspace/lander --quit`. Rutas root-relative
   (`res://scenes/...`, `res://scripts/...`). NO toques void-tap, grid-runner ni signal.
 
-- [ ] **LD-02 — Nave vectorial + física básica.**
+- [x] **LD-02 — Nave vectorial + física básica.**
   La cápsula es un `CharacterBody2D` dibujada en `_draw()`: triángulo relleno (`draw_colored_polygon`)
   + borde (`draw_polyline`), estilo del orbe de void-tap. Gravedad constante hacia abajo; **thrust**
   hacia arriba mientras se mantiene presionado (teclado **y** touch); control lateral izquierda/derecha.
