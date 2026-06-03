@@ -31,7 +31,7 @@ Los dos juegos estaban "rotos" (no se pasaba de la pantalla de start). Causas y 
 - [x] **FX-03 — grid-runner: limpiar `Main.tscn`.** Quitada la UI huérfana (`Msg`/`MenuButton`) que no usaba el script.
 - [x] **FX-04 — void-tap: quitar placeholders rotos.** Había `...` literales en `Main.gd` y `Player.gd`
   (dejados por el CLI) que rompían el parse → `_on_play_pressed` no existía → Play no hacía nada.
-- [ ] **FX-05 — Verificar el loop en vivo (ambos).** Tras el deploy, confirmar en el hub:
+- [x] **FX-05 — Verificar el loop en vivo (ambos).** Tras el deploy, confirmar en el hub:
   menú → Start → mover (teclado **y** touch) → choque → game over → restart → "← Menu" regresa al hub.
 
 ---
