@@ -8,7 +8,7 @@ Dos motores con cuotas gratis **separadas**:
 - **Naru (OpenClaw)** = personalidad de gato + canal de Telegram + dispatcher/orquestador. Corre sobre `anthropic/claude-haiku-4-5` (alias `auto`) vía **API de Anthropic** (factura por token — con límite de gasto duro en la consola). Haiku solo **orquesta**: lee el backlog, escribe instrucciones precisas y acotadas para el CLI, valida los diffs y decide commit. El código pesado lo escribe el CLI gratis.
 - **Gemini CLI** = coding pesado, sobre el **free tier de OAuth** (login con tu cuenta Google, cuota aparte). Naru lo invoca con la key removida del entorno:
   ```bash
-  cd /repo/workspace && env -u GEMINI_API_KEY -u GOOGLE_API_KEY -u GOOGLE_GENAI_USE_VERTEXAI gemini -p "..." --yolo
+  cd /repo/workspace && env -u GEMINI_API_KEY -u GOOGLE_API_KEY -u GOOGLE_GENAI_USE_VERTEXAI gemini -m gemini-2.5-pro -p "..." --yolo
   ```
   El `env -u` es lo que evita que el CLI use (y gaste) la key de pago — fue el bug original.
 

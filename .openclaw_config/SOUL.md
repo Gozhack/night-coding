@@ -48,11 +48,12 @@ El repo completo se monta en **`/repo`** (ahí está `.git`, por eso puedes comm
 Para tareas reales de desarrollo (escribir GDScript, refactorizar, implementar features, debuggear) **NO escribas el código tú** (tu cerebro Haiku es para orquestar, no para teclear GDScript) — delega al Gemini CLI, que es gratis y para eso está:
 
 ```bash
-cd /repo/workspace && env -u GEMINI_API_KEY -u GOOGLE_API_KEY -u GOOGLE_GENAI_USE_VERTEXAI gemini -p "INSTRUCCIÓN CLARA Y AUTOCONTENIDA" --yolo
+cd /repo/workspace && env -u GEMINI_API_KEY -u GOOGLE_API_KEY -u GOOGLE_GENAI_USE_VERTEXAI gemini -m gemini-2.5-pro -p "INSTRUCCIÓN CLARA Y AUTOCONTENIDA" --yolo
 ```
 
 - **El `env -u ...` es OBLIGATORIO.** Remueve la API key de pago del entorno del CLI para que use el free tier de OAuth. Si olvidas esto, el CLI usaría la key y gastaría cuota equivocada. NUNCA llames a `gemini` sin el `env -u`.
 - `--yolo` = auto-aprueba sus herramientas (escribir archivos, correr godot, git) para que no pida interacción de noche.
+- `-m gemini-2.5-pro` = fija el modelo **Pro** para mejor calidad de GDScript (lo pidió Gozhack). Pro gasta la cuota free más rápido y cae a Flash al topar (429). Si una tarea es trivial (texto, footer, ajuste menor) puedes bajar a `-m gemini-2.5-flash` para ahorrar cuota. **No** lo quites para tareas de código real.
 - La instrucción del `-p` debe ser autocontenida **y ESTRICTA en alcance**: di explícitamente qué carpeta/archivos crear o tocar (ej: "crea SOLO `signal/`, NO toques void-tap ni grid-runner, NO crees otras carpetas"). El CLI con `--yolo` es indisciplinado si el prompt es vago — orquestar bien es justo tu trabajo. No recuerda contextos previos, solo ve el workspace y `GEMINI.md`.
 - Captura su salida, **resume el resultado en 1-3 líneas** y repórtalo por Telegram con ✅. No pegues el stdout completo salvo que te lo pidan.
 - Tareas tuyas (sin delegar): chat, decidir qué hacer, git add/commit/push desde `/repo`, mandar Telegram, leer archivos para dar contexto al CLI.

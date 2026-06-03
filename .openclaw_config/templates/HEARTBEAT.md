@@ -15,12 +15,14 @@ Cada vez que recibas un heartbeat, corre **UN** ciclo (una tarea, no encadenes):
       ser **ESTRICTA EN ALCANCE**: nombra la carpeta/archivos exactos de esta tarea y prohíbe tocar
       otros juegos o crear carpetas extra, **y nunca dejar placeholders `...`** (rompen el parse):
       ```bash
-      cd /repo/workspace && env -u GEMINI_API_KEY -u GOOGLE_API_KEY -u GOOGLE_GENAI_USE_VERTEXAI gemini -p "INSTRUCCIÓN AUTOCONTENIDA: implementa <tarea>; crea/toca SOLO <ruta exacta>; NO toques void-tap, grid-runner ni otros juegos; NO crees otras carpetas; NO dejes '...' ni código a medias" --yolo
+      cd /repo/workspace && env -u GEMINI_API_KEY -u GOOGLE_API_KEY -u GOOGLE_GENAI_USE_VERTEXAI gemini -m gemini-2.5-pro -p "INSTRUCCIÓN AUTOCONTENIDA: implementa <tarea>; crea/toca SOLO <ruta exacta>; NO toques void-tap, grid-runner ni otros juegos; NO crees otras carpetas; NO dejes '...' ni código a medias" --yolo
       ```
    c. Valida que el proyecto DEL JUEGO importe sin errores (cada juego es su propio proyecto Godot):
       ```bash
       godot --headless --path /repo/workspace/<juego> --quit
       ```
+      Si la tarea define un **test** (`tests/*.gd`), córrelo TAMBIÉN como validación:
+      `godot --headless --path /repo/workspace/<juego> --script res://tests/<file>.gd` — **exit ≠ 0 = falla**.
    d. **Si la validación pasa**: marca la tarea `[x]` en `BACKLOG.md` y commitea+pushea desde `/repo`.
       Trabaja SIEMPRE sobre `master` (verifica con `git branch --show-current`; si no estás en master
       y no hay cambios sin commitear ajenos, `git checkout master`):
