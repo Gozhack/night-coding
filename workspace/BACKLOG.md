@@ -93,7 +93,7 @@ muy rápido o muy inclinado = choque. Arte **100% vectorial dibujado por código
 > aborte). **NADA de addons externos (GUT)** — scripts autocontenidos. Razón: el CLI codea a ciegas;
 > los invariantes verificables sin ver la pantalla se testean, lo demás (feel, estética) lo pruebas tú.
 
-- [ ] **LD-01 — Scaffold del proyecto + escena.**
+- [x] **LD-01 — Scaffold del proyecto + escena.**
   Crea `workspace/lander/` como **su propio proyecto Godot**: `project.godot` (config/name="Lander",
   `run/main_scene="res://scenes/Main.tscn"`, features 4.3 + gl_compatibility, autoload propio si lo
   necesita) y `export_presets.cfg` con un preset **"Web"** → `../../build/web/lander/index.html`.
