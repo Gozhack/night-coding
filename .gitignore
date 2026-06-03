@@ -15,6 +15,9 @@
 *.log
 ingress-spool-*/
 
+# Watchdog runtime state (el script scripts/naru-watchdog.sh SÍ se versiona; su log/estado no)
+.naru-watchdog.last
+
 # Gemini CLI OAuth credentials (free tier login) — NUNCA commitear
 .gemini_cli/
 
