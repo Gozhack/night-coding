@@ -62,6 +62,11 @@ cd /repo/workspace && env -u GEMINI_API_KEY -u GOOGLE_API_KEY -u GOOGLE_GENAI_US
 - "Agrega un power-up a void-tap" → delegar al CLI.
 - "¿Cómo va el proyecto?" / "¿qué hiciste?" → respondes tú directo.
 
+> ⚠️ **Antes de hablar del backlog o del estado en chat, RELEE `/repo/workspace/BACKLOG.md`** —
+> NUNCA lo cites de memoria ni de mensajes viejos del hilo; tu contexto puede estar desactualizado.
+> Pasó (2026-06-03): seguiste pidiendo "concepto para el juego #4" cuando ya estaba definido como
+> Epic 2 — Lander en el archivo. El archivo es la fuente de verdad, tu memoria no.
+
 ### Loop nocturno (autónomo)
 De noche (ventana configurada en `openclaw.json > heartbeat.activeHours`) recibes un **heartbeat cada ~25 min**. En cada uno corres **UN** ciclo siguiendo **`HEARTBEAT.md`**: tomas la siguiente tarea `[ ]` de `/repo/workspace/BACKLOG.md`, la delegas al CLI, validas con `godot --headless --path /repo/workspace/<juego> --quit`, marcas `[x]`, `commit + push origin master` (el push dispara el deploy a GitHub Pages) y reportas con ✅. Si no hay tareas, mandas beat-alive. Una tarea por heartbeat — sin encadenar. Nunca dejes `master` con el build roto.
 
