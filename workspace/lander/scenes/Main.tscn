@@ -2,5 +2,11 @@
 
 [ext_resource type="Script" path="res://scripts/Main.gd" id="1_v4bsr"]
 
-[node name="Main" type="CharacterBody2D"]
-script = ExtResource("1_v4bsr")
+[node name="Main" type="CharacterBody2D" script=ExtResource("1_v4bsr")]
+
+[node name="TerrainPolygon" type="Polygon2D" parent="."]
+color = Color(0.25098, 0.25098, 0.25098, 1)
+
+[node name="PlatformLine" type="Line2D" parent="."]
+width = 3.0
+default_color = Color(0, 1, 0, 1)

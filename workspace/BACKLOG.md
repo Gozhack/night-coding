@@ -108,7 +108,7 @@ muy rápido o muy inclinado = choque. Arte **100% vectorial dibujado por código
   Integra velocidad manualmente. Una llamita/partícula simple dibujada bajo la nave al acelerar. Sin
   terreno aún (se sale por abajo y reaparece, o límites de pantalla). Solo `scripts/`+`scenes/` de lander.
 
-- [ ] **LD-03 — Terreno PROCEDURAL (generación por semilla).**
+- [x] **LD-03 — Terreno PROCEDURAL (generación por semilla).**
   Una función `generate_terrain(seed: int)` que produce el **perfil del terreno** a partir de una semilla
   usando `RandomNumberGenerator` con `rng.seed = seed` (NO `randi()` global): riscos irregulares
   **distintos en cada partida**, garantizando **al menos una zona plana** (la plataforma) de ancho mínimo.

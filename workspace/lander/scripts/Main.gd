@@ -7,6 +7,13 @@ const LATERAL_SPEED = 150.0
 var screen_size: Vector2
 var is_thrusting = false
 
+# --- Child Nodes ---
+@onready var terrain_polygon: Polygon2D = $TerrainPolygon
+@onready var platform_line: Line2D = $PlatformLine
+
+# --- Scene Resources ---
+const TerrainGenerator = preload("res://scripts/TerrainGenerator.gd")
+
 # --- Touch state variables ---
 var touch_id = -1
 var touch_pos = Vector2.ZERO
@@ -25,6 +32,21 @@ var flame_border_color = Color(1.0, 0.94, 0.4)
 func _ready():
 	screen_size = get_viewport_rect().size
 	position = screen_size / 2
+	
+	# --- Generate and draw terrain ---
+	var terrain_generator = TerrainGenerator.new()
+	var terrain_data = terrain_generator.generate_terrain(1, screen_size)
+	var terrain_points = terrain_data["terrain_points"]
+	var platform_points = terrain_data["platform_points"]
+	
+	# Set the points for the green platform line
+	platform_line.points = platform_points
+	
+	# Add points to make the terrain a closed polygon for filling
+	var polygon_points = PackedVector2Array(terrain_points)
+	polygon_points.append(Vector2(screen_size.x, screen_size.y))
+	polygon_points.append(Vector2(0, screen_size.y))
+	terrain_polygon.polygon = polygon_points
 
 
 func _draw():
