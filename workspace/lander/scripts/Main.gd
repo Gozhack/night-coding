@@ -10,6 +10,9 @@ var is_thrusting = false
 # --- Child Nodes ---
 @onready var terrain_polygon: Polygon2D = $TerrainPolygon
 @onready var platform_line: Line2D = $PlatformLine
+@onready var terrain_collision: CollisionPolygon2D = $Terrain/CollisionPolygon2D
+@onready var collision_polygon_2d: CollisionPolygon2D = $CollisionPolygon2D
+@onready var terrain_collision_polygon: CollisionPolygon2D = $Terrain/CollisionPolygon2D
 
 # --- Scene Resources ---
 const TerrainGenerator = preload("res://scripts/TerrainGenerator.gd")
@@ -33,6 +36,9 @@ func _ready():
 	screen_size = get_viewport_rect().size
 	position = screen_size / 2
 	
+	# Set the ship's CollisionPolygon2D points
+	collision_polygon_2d.polygon = ship_points
+	
 	# --- Generate and draw terrain ---
 	var terrain_generator = TerrainGenerator.new()
 	var terrain_data = terrain_generator.generate_terrain(1, screen_size)
@@ -47,6 +53,12 @@ func _ready():
 	polygon_points.append(Vector2(screen_size.x, screen_size.y))
 	polygon_points.append(Vector2(0, screen_size.y))
 	terrain_polygon.polygon = polygon_points
+	
+	# Set collision polygon for terrain (same points but without the closed bottom)
+	terrain_collision.polygon = terrain_points
+	
+	# Assign the same points to the CollisionPolygon2D of the Terrain StaticBody2D
+	terrain_collision_polygon.polygon = polygon_points
 
 
 func _draw():

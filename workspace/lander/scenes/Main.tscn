@@ -4,9 +4,16 @@
 
 [node name="Main" type="CharacterBody2D" script=ExtResource("1_v4bsr")]
 
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(0, -15, -10, 10, 10, 10)
+
 [node name="TerrainPolygon" type="Polygon2D" parent="."]
 color = Color(0.25098, 0.25098, 0.25098, 1)
 
 [node name="PlatformLine" type="Line2D" parent="."]
 width = 3.0
 default_color = Color(0, 1, 0, 1)
+
+[node name="Terrain" type="StaticBody2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Terrain"]

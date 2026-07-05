@@ -37,6 +37,16 @@ for f in HEARTBEAT.md USER.md; do
   fi
 done
 
+# Guard de cuota para agy: envolver el binario con un cooldown determinístico
+# (ver .openclaw_config/agy-wrapper.sh). Idempotente: solo actúa si agy sigue
+# siendo el binario pelón (imagen fresca tras recreate/rebuild).
+if [ -x /usr/local/bin/agy ] && [ ! -e /usr/local/bin/agy-real ]; then
+  mv /usr/local/bin/agy /usr/local/bin/agy-real \
+    && cp "$REPO/.openclaw_config/agy-wrapper.sh" /usr/local/bin/agy \
+    && chmod +x /usr/local/bin/agy \
+    && echo "[container-init] agy cooldown wrapper instalado"
+fi
+
 # Arrancar el gateway (equivalente al command original de la imagen base).
 echo "[container-init] arrancando gateway ..."
 cd /app

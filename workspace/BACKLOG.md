@@ -122,7 +122,7 @@ muy rápido o muy inclinado = choque. Arte **100% vectorial dibujado por código
   (d) **misma semilla → mismo terreno** (determinismo) y (e) **semillas distintas → terrenos distintos**.
   Falla = exit ≠ 0. Validar con `godot --headless --path workspace/lander --script res://tests/test_terrain.gd`.
 
-- [ ] **LD-05 — Colisión nave-terreno.**
+- [x] **LD-05 — Colisión nave-terreno.**
   Construye la colisión (`StaticBody2D` + `CollisionPolygon2D`) a partir del terreno de LD-03 y haz que la
   nave colisione: choca contra los riscos y se posa sobre la plataforma. Solo lander.
 
