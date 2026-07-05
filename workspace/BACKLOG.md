@@ -131,7 +131,7 @@ muy rápido o muy inclinado = choque. Arte **100% vectorial dibujado por código
   velocidad e inclinación. Conéctala al contacto: en la plataforma y bajo umbral = éxito; demasiado rápido,
   muy inclinado, o sobre riscos = choque. Feedback visual claro de cada caso.
 
-- [ ] **LD-07 — Tests de la clasificación de aterrizaje (headless).**
+- [x] **LD-07 — Tests de la clasificación de aterrizaje (headless).**
   `tests/test_landing.gd`: afirma SUCCESS/CRASH en valores límite — justo bajo y justo sobre el umbral de
   velocidad y de ángulo, dentro y fuera de la plataforma. Falla = exit ≠ 0. Validar con
   `godot --headless --path workspace/lander --script res://tests/test_landing.gd`.
