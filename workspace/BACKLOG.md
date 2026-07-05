@@ -126,7 +126,7 @@ muy rápido o muy inclinado = choque. Arte **100% vectorial dibujado por código
   Construye la colisión (`StaticBody2D` + `CollisionPolygon2D`) a partir del terreno de LD-03 y haz que la
   nave colisione: choca contra los riscos y se posa sobre la plataforma. Solo lander.
 
-- [ ] **LD-06 — Clasificación aterrizaje vs choque (lógica pura).**
+- [x] **LD-06 — Clasificación aterrizaje vs choque (lógica pura).**
   Función pura `classify_landing(speed, angle, on_pad) -> int` (enum SUCCESS/CRASH) con umbrales claros de
   velocidad e inclinación. Conéctala al contacto: en la plataforma y bajo umbral = éxito; demasiado rápido,
   muy inclinado, o sobre riscos = choque. Feedback visual claro de cada caso.

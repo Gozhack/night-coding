@@ -1,11 +1,17 @@
 extends CharacterBody2D
 
+const LandingClassifier = preload("res://scripts/LandingClassifier.gd")
+
 const GRAVITY = 100.0
 const THRUST = 250.0
 const LATERAL_SPEED = 150.0
 
 var screen_size: Vector2
 var is_thrusting = false
+
+# --- Landing state ---
+var landing_result = -1  # -1 = not landed, 0 = success, 1 = crash
+var platform_bounds = PackedVector2Array()  # start and end x of platform
 
 # --- Child Nodes ---
 @onready var terrain_polygon: Polygon2D = $TerrainPolygon
@@ -47,6 +53,9 @@ func _ready():
 	
 	# Set the points for the green platform line
 	platform_line.points = platform_points
+	
+	# Store platform bounds for landing detection
+	platform_bounds = platform_points
 	
 	# Add points to make the terrain a closed polygon for filling
 	var polygon_points = PackedVector2Array(terrain_points)
@@ -126,7 +135,30 @@ func _physics_process(delta):
 	# --- Finalization ---
 	
 	# Integrate motion
+	var prev_position = position
 	move_and_slide()
+	
+	# Detect landing: check if we hit terrain
+	var collisions = get_last_slide_collision()
+	if collisions:
+		# Calculate ship angle (rotation in degrees)
+		var ship_angle = rad_to_deg(rotation)
+		
+		# Calculate vertical speed (magnitude of y velocity)
+		var vertical_speed = abs(velocity.y)
+		
+		# Check if on platform (x position within platform bounds)
+		var on_platform = (position.x >= platform_bounds[0].x and 
+		                   position.x <= platform_bounds[1].x)
+		
+		# Classify landing
+		landing_result = LandingClassifier.classify_landing(vertical_speed, ship_angle, on_platform)
+		
+		# Change ship color based on result
+		if landing_result == LandingClassifier.LandingResult.SUCCESS:
+			ship_color = Color(0.0, 1.0, 0.0)  # Green
+		elif landing_result == LandingClassifier.LandingResult.CRASH:
+			ship_color = Color(1.0, 0.0, 0.0)  # Red
 	
 	# Trigger redraw to show/hide flame
 	queue_redraw()
