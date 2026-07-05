@@ -34,8 +34,8 @@ services:
       # Repo COMPLETO (no solo workspace/): el contenedor necesita ver .git para que
       # Naru pueda commitear/pushear. Código Godot en /repo/workspace, .git en /repo/.git.
       - .:/repo
-      # Persiste el login OAuth del Gemini CLI (free tier). Login una sola vez; aquí queda.
-      - ./.gemini_cli:/root/.gemini
+      # Persiste el login del Antigravity CLI (free tier) compartiéndolo con el host.
+      - ~/.gemini/antigravity-cli:/root/.gemini/antigravity-cli
       # Persiste la continuidad del bot (MEMORY.md, memory/, HEARTBEAT.md, USER.md, TOOLS.md)
       # para que sobreviva a 'docker compose up --force-recreate'. NO version-controlado.
       - ./.openclaw_workspace:/root/.openclaw/workspace

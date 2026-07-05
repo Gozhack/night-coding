@@ -136,7 +136,7 @@ Skills provide your tools. When you need one, check its `SKILL.md`. Keep local n
 > **🌙 OVERRIDE night-coding:** En ESTE proyecto la noche es **horario de trabajo**, no de
 > silencio. El default genérico de abajo ("stay quiet 23:00-08:00 / responde HEARTBEAT_OK")
 > **NO aplica**. Cuando recibas un heartbeat, corre el **loop nocturno** de `HEARTBEAT.md`:
-> toma la siguiente tarea de `/repo/workspace/BACKLOG.md`, delégala al Gemini CLI, valida,
+> toma la siguiente tarea de `/repo/workspace/BACKLOG.md`, delégala al Antigravity CLI, valida,
 > `commit + push origin master`, y reporta por Telegram. Si no hay tareas, manda beat-alive.
 > El resto de esta sección es contexto genérico de OpenClaw; gana `HEARTBEAT.md` + `SOUL.md`.
 

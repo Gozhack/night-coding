@@ -116,7 +116,7 @@ muy rápido o muy inclinado = choque. Arte **100% vectorial dibujado por código
   testeable headless. Dibuja el resultado como polígono/`Line2D` con la plataforma marcada visualmente.
   Sin colisión todavía. Solo lander.
 
-- [ ] **LD-04 — Tests del terreno procedural (headless).**
+- [x] **LD-04 — Tests del terreno procedural (headless).**
   `tests/test_terrain.gd`: probando varias semillas, afirma que (a) el terreno cubre todo el ancho de la
   pantalla, (b) existe ≥1 plataforma plana del ancho mínimo, (c) todos los puntos caen dentro de límites,
   (d) **misma semilla → mismo terreno** (determinismo) y (e) **semillas distintas → terrenos distintos**.

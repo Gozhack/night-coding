@@ -16,7 +16,7 @@
         { "pattern": "/usr/bin/apt-get" },
         { "pattern": "/usr/bin/npm" },
         { "pattern": "/usr/bin/env" },
-        { "pattern": "/usr/local/bin/gemini" }
+        { "pattern": "/usr/local/bin/agy" }
       ]
     }
   }

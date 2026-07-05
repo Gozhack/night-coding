@@ -1,6 +1,6 @@
 # HEARTBEAT — Loop de trabajo nocturno
 
-Eres el **dispatcher**. El coding pesado lo hace el **Gemini CLI** (free tier OAuth), tú no.
+Eres el **dispatcher**. El coding pesado lo hace el **Antigravity CLI (agy)** (free tier OAuth), tú no.
 Cada vez que recibas un heartbeat, corre **UN** ciclo (una tarea, no encadenes):
 
 1. Lee `/repo/workspace/BACKLOG.md`. Toma la **primera** tarea sin marcar `[ ]`.
@@ -15,7 +15,7 @@ Cada vez que recibas un heartbeat, corre **UN** ciclo (una tarea, no encadenes):
       ser **ESTRICTA EN ALCANCE**: nombra la carpeta/archivos exactos de esta tarea y prohíbe tocar
       otros juegos o crear carpetas extra, **y nunca dejar placeholders `...`** (rompen el parse):
       ```bash
-      cd /repo/workspace && env -u GEMINI_API_KEY -u GOOGLE_API_KEY -u GOOGLE_GENAI_USE_VERTEXAI gemini -m gemini-2.5-pro -p "INSTRUCCIÓN AUTOCONTENIDA: implementa <tarea>; crea/toca SOLO <ruta exacta>; NO toques void-tap, grid-runner ni otros juegos; NO crees otras carpetas; NO dejes '...' ni código a medias" --yolo
+      cd /repo/workspace && env -u GEMINI_API_KEY -u GOOGLE_API_KEY -u GOOGLE_GENAI_USE_VERTEXAI agy --model "Gemini 3.1 Pro (High)" -p "INSTRUCCIÓN AUTOCONTENIDA: implementa <tarea>; crea/toca SOLO <ruta exacta>; NO toques void-tap, grid-runner ni otros juegos; NO crees otras carpetas; NO dejes '...' ni código a medias" --dangerously-skip-permissions
       ```
    c. Valida que el proyecto DEL JUEGO importe sin errores (cada juego es su propio proyecto Godot):
       ```bash

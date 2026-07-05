@@ -12,7 +12,7 @@
 #  - Solo es agresivo en la ventana nocturna (23:00–08:00 MX), cuando el heartbeat
 #    cada 25m DEBE producir logs. De día los huecos de inactividad son normales
 #    (vimos gaps legítimos de ~50 min), así que el umbral es mucho más laxo.
-#  - Si hay un proceso `gemini` corriendo dentro del contenedor = está delegando
+#  - Si hay un proceso `agy` corriendo dentro del contenedor = está delegando
 #    código de verdad (la llamada bloquea minutos): NO reinicia, salvo que lleve
 #    colgado demasiado (probable CLI hung).
 #  - Rate-limit: no reinicia más de una vez cada 15 min (evita tormentas).
@@ -33,7 +33,7 @@ LAST_RESTART_FILE="$COMPOSE_DIR/.naru-watchdog.last"
 
 NIGHT_THRESHOLD=2100   # 35 min  (ventana 23:00–08:00: el heartbeat de 25m debe loguear)
 DAY_THRESHOLD=5400     # 90 min  (de día los huecos son normales)
-GEMINI_HUNG=2700       # 45 min  (si hay gemini corriendo PERO los logs llevan >esto, está colgado)
+GEMINI_HUNG=2700       # 45 min  (si hay agy corriendo PERO los logs llevan >esto, está colgado)
 MIN_RESTART_GAP=900    # 15 min entre reinicios
 
 log() { echo "$(date -Iseconds) $*" >> "$LOG"; }
@@ -86,12 +86,12 @@ if [ "$age" -lt "$THRESHOLD" ]; then
 fi
 
 # 4) Logs viejos. ¿Hay una delegación al CLI en curso? No mates trabajo real.
-if docker exec "$CONTAINER" pgrep -f '[g]emini' >/dev/null 2>&1; then
+if docker exec "$CONTAINER" pgrep -f '[a]gy' >/dev/null 2>&1; then
   if [ "$age" -lt "$GEMINI_HUNG" ]; then
-    log "logs viejos (${age}s) PERO gemini está delegando — no reinicio (trabajando)"
+    log "logs viejos (${age}s) PERO agy está delegando — no reinicio (trabajando)"
     exit 0
   fi
-  do_restart "gemini corriendo pero logs >${GEMINI_HUNG}s (CLI colgado)"
+  do_restart "agy corriendo pero logs >${GEMINI_HUNG}s (CLI colgado)"
 fi
 
 # 5) Sin delegación y logs viejos en ventana activa → wedge. Reinicia.
