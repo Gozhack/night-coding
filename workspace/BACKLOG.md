@@ -136,7 +136,7 @@ muy rápido o muy inclinado = choque. Arte **100% vectorial dibujado por código
   velocidad y de ángulo, dentro y fuera de la plataforma. Falla = exit ≠ 0. Validar con
   `godot --headless --path workspace/lander --script res://tests/test_landing.gd`.
 
-- [ ] **LD-08 — Combustible + HUD.**
+- [x] **LD-08 — Combustible + HUD.**
   El thrust consume combustible (barra/lectura en pantalla). Muestra velocidad vertical y combustible
   restante. Sin combustible = no hay thrust. HUD legible, responsive, estilo consistente con los otros.
 

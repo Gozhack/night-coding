@@ -13,6 +13,11 @@ var is_thrusting = false
 var landing_result = -1  # -1 = not landed, 0 = success, 1 = crash
 var platform_bounds = PackedVector2Array()  # start and end x of platform
 
+# --- Fuel system ---
+var max_fuel = 100.0
+var fuel = 100.0
+const FUEL_BURN_RATE = 20.0  # fuel units per second while thrusting
+
 # --- Child Nodes ---
 @onready var terrain_polygon: Polygon2D = $TerrainPolygon
 @onready var platform_line: Line2D = $PlatformLine
@@ -40,6 +45,9 @@ var flame_border_color = Color(1.0, 0.94, 0.4)
 
 func _ready():
 	screen_size = get_viewport_rect().size
+	if screen_size.x <= 0 or screen_size.y <= 0:
+		screen_size = Vector2(1280, 720)
+	print("DEBUG _ready: screen_size is ", screen_size)
 	position = screen_size / 2
 	
 	# Set the ship's CollisionPolygon2D points
@@ -50,6 +58,7 @@ func _ready():
 	var terrain_data = terrain_generator.generate_terrain(1, screen_size)
 	var terrain_points = terrain_data["terrain_points"]
 	var platform_points = terrain_data["platform_points"]
+	print("DEBUG _ready: terrain_points size is ", terrain_points.size(), " platform_points size is ", platform_points.size())
 	
 	# Set the points for the green platform line
 	platform_line.points = platform_points
@@ -79,6 +88,28 @@ func _draw():
 		# Draw flame body and border
 		draw_colored_polygon(flame_points, flame_color)
 		draw_polyline(flame_points, flame_border_color, 1.0, true)
+	
+	# --- Draw HUD ---
+	# Fuel bar (upper left)
+	var fuel_bar_width = 100.0
+	var fuel_bar_height = 15.0
+	var fuel_bar_pos = Vector2(10, 10)
+	var fuel_ratio = fuel / max_fuel
+	
+	# Background (gray)
+	draw_rect(Rect2(fuel_bar_pos, Vector2(fuel_bar_width, fuel_bar_height)), Color(0.3, 0.3, 0.3))
+	
+	# Fuel fill (green if ok, red if low)
+	var fuel_color = Color(0.0, 1.0, 0.0) if fuel_ratio > 0.2 else Color(1.0, 0.0, 0.0)
+	draw_rect(Rect2(fuel_bar_pos, Vector2(fuel_bar_width * fuel_ratio, fuel_bar_height)), fuel_color)
+	
+	# Fuel text
+	draw_string(ThemeDB.fallback_font, fuel_bar_pos + Vector2(5, 25), "FUEL: %.0f%%" % (fuel_ratio * 100.0), HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color.WHITE)
+	
+	# Velocity text (upper right)
+	var velocity_text = "V: %.0f px/s" % abs(velocity.y)
+	var text_size = ThemeDB.fallback_font.get_string_size(velocity_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 12)
+	draw_string(ThemeDB.fallback_font, Vector2(screen_size.x - text_size.x - 10, 10), velocity_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color.WHITE)
 
 
 func _input(event):
@@ -125,9 +156,13 @@ func _physics_process(delta):
 	# Apply gravity
 	velocity.y += GRAVITY * delta
 	
-	# Apply thrust
-	if is_thrusting:
+	# Apply thrust (consume fuel)
+	if is_thrusting and fuel > 0:
 		velocity.y -= THRUST * delta
+		fuel -= FUEL_BURN_RATE * delta
+		fuel = max(fuel, 0.0)
+	elif is_thrusting and fuel <= 0:
+		is_thrusting = false  # No fuel, no thrust
 
 	# Apply lateral movement
 	velocity.x = lateral_direction * LATERAL_SPEED

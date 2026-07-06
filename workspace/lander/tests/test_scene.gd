@@ -7,9 +7,10 @@ func _initialize() -> void:
 	var instance = scene.instantiate()
 	assert(instance != null, "Failed to instantiate Main.tscn")
 	
-	# Add to root to trigger _ready
 	root.add_child(instance)
-	print("Scene instantiated and added to root. Checking children...")
+	print("Scene instantiated and added to root. Awaiting a frame...")
+	await process_frame
+	print("Checking children...")
 	
 	# Verify that the CollisionPolygon2D exists on the character
 	var ship_collision = instance.get_node("CollisionPolygon2D")
