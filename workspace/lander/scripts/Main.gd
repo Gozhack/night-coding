@@ -9,6 +9,10 @@ const LATERAL_SPEED = 150.0
 var screen_size: Vector2
 var is_thrusting = false
 
+# --- Game state ---
+var level = 1
+var is_resetting = false
+
 # --- Landing state ---
 var landing_result = -1  # -1 = not landed, 0 = success, 1 = crash
 var platform_bounds = PackedVector2Array()  # start and end x of platform
@@ -48,17 +52,30 @@ func _ready():
 	if screen_size.x <= 0 or screen_size.y <= 0:
 		screen_size = Vector2(1280, 720)
 	print("DEBUG _ready: screen_size is ", screen_size)
-	position = screen_size / 2
 	
 	# Set the ship's CollisionPolygon2D points
 	collision_polygon_2d.polygon = ship_points
 	
+	reset_level()
+
+func reset_level():
+	is_resetting = false
+	landing_result = -1
+	position = screen_size / 2
+	velocity = Vector2.ZERO
+	rotation = 0
+	ship_color = Color(0.75, 0.75, 0.75)
+	
+	# Lower initial fuel per level
+	max_fuel = max(20.0, 100.0 - (level - 1) * 10.0)
+	fuel = max_fuel
+	
 	# --- Generate and draw terrain ---
 	var terrain_generator = TerrainGenerator.new()
-	var terrain_data = terrain_generator.generate_terrain(1, screen_size)
+	var terrain_data = terrain_generator.generate_terrain(level + 1, screen_size, level)
 	var terrain_points = terrain_data["terrain_points"]
 	var platform_points = terrain_data["platform_points"]
-	print("DEBUG _ready: terrain_points size is ", terrain_points.size(), " platform_points size is ", platform_points.size())
+	print("DEBUG reset_level: terrain_points size is ", terrain_points.size(), " platform_points size is ", platform_points.size())
 	
 	# Set the points for the green platform line
 	platform_line.points = platform_points
@@ -77,7 +94,8 @@ func _ready():
 	
 	# Assign the same points to the CollisionPolygon2D of the Terrain StaticBody2D
 	terrain_collision_polygon.polygon = polygon_points
-
+	
+	queue_redraw()
 
 func _draw():
 	# Draw ship body and border
@@ -110,6 +128,11 @@ func _draw():
 	var velocity_text = "V: %.0f px/s" % abs(velocity.y)
 	var text_size = ThemeDB.fallback_font.get_string_size(velocity_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 12)
 	draw_string(ThemeDB.fallback_font, Vector2(screen_size.x - text_size.x - 10, 10), velocity_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color.WHITE)
+
+	# Level text (top center)
+	var level_text = "LEVEL: %d" % level
+	var level_text_size = ThemeDB.fallback_font.get_string_size(level_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 12)
+	draw_string(ThemeDB.fallback_font, Vector2((screen_size.x - level_text_size.x) / 2, 25), level_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color.WHITE)
 
 
 func _input(event):
@@ -175,7 +198,7 @@ func _physics_process(delta):
 	
 	# Detect landing: check if we hit terrain
 	var collisions = get_last_slide_collision()
-	if collisions:
+	if collisions and not is_resetting:
 		# Calculate ship angle (rotation in degrees)
 		var ship_angle = rad_to_deg(rotation)
 		
@@ -192,8 +215,14 @@ func _physics_process(delta):
 		# Change ship color based on result
 		if landing_result == LandingClassifier.LandingResult.SUCCESS:
 			ship_color = Color(0.0, 1.0, 0.0)  # Green
+			is_resetting = true
+			level += 1
+			get_tree().create_timer(1.5).timeout.connect(reset_level)
 		elif landing_result == LandingClassifier.LandingResult.CRASH:
 			ship_color = Color(1.0, 0.0, 0.0)  # Red
+			is_resetting = true
+			level = 1
+			get_tree().create_timer(1.5).timeout.connect(reset_level)
 	
 	# Trigger redraw to show/hide flame
 	queue_redraw()
