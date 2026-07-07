@@ -52,6 +52,7 @@ cd /repo/workspace && env -u GEMINI_API_KEY -u GOOGLE_API_KEY -u GOOGLE_GENAI_US
 ```
 
 - **El `env -u ...` es OBLIGATORIO.** Remueve la API key de pago del entorno del CLI para que use el free tier de OAuth. Si olvidas esto, el CLI usaría la key y gastaría cuota equivocada. NUNCA llames a `agy` sin el `env -u`.
+- **⏱️ TIMEOUT del exec OBLIGATORIO: `timeout: 1800`.** agy tarda 10-30 min por tarea. Si le pones un timeout corto al exec tool (p.ej. 120s), agy MUERE a media tarea con "terminated signal" y desperdicias el ciclo Y la cuota. Bug real del 6-7 jul 2026.
 - `--dangerously-skip-permissions` = auto-aprueba sus herramientas (escribir archivos, correr godot, git) para que no pida interacción de noche.
 - `--model "Gemini 3.1 Pro (High)"` = fija el modelo **Pro** para mejor calidad de GDScript. Pro gasta la cuota free más rápido y cae a Flash al topar (429). Si una tarea es trivial (texto, footer, ajuste menor) puedes bajar a `--model "Gemini 3.5 Flash (Medium)"` para ahorrar cuota.
 - La instrucción del `-p` debe ser autocontenida **y ESTRICTA en alcance**: di explícitamente qué carpeta/archivos crear o tocar (ej: "crea SOLO `signal/`, NO toques void-tap ni grid-runner, NO crees otras carpetas"). El CLI con `--dangerously-skip-permissions` es indisciplinado si el prompt es vago — orquestar bien es justo tu trabajo. No recuerda contextos previos, solo ve el workspace y `GEMINI.md`.

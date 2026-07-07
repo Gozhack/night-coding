@@ -1,6 +1,7 @@
 extends CharacterBody2D
 
 const LandingClassifier = preload("res://scripts/LandingClassifier.gd")
+const ResultScreen = preload("res://scenes/ResultScreen.tscn")
 
 const GRAVITY = 100.0
 const THRUST = 250.0
@@ -16,6 +17,7 @@ var is_resetting = false
 # --- Landing state ---
 var landing_result = -1  # -1 = not landed, 0 = success, 1 = crash
 var platform_bounds = PackedVector2Array()  # start and end x of platform
+var vertical_speed_at_landing = 0.0
 
 # --- Fuel system ---
 var max_fuel = 100.0
@@ -46,6 +48,7 @@ var flame_points = PackedVector2Array([Vector2(-5, 12), Vector2(0, 20), Vector2(
 var flame_color = Color(1.0, 0.68, 0.2)
 var flame_border_color = Color(1.0, 0.94, 0.4)
 
+var result_screen_instance = null
 
 func _ready():
 	screen_size = get_viewport_rect().size
@@ -59,6 +62,7 @@ func _ready():
 	reset_level()
 
 func reset_level():
+	get_tree().paused = false
 	is_resetting = false
 	landing_result = -1
 	position = screen_size / 2
@@ -210,18 +214,17 @@ func _physics_process(delta):
 		
 		# Classify landing
 		landing_result = LandingClassifier.classify_landing(vertical_speed, ship_angle, on_platform)
+		vertical_speed_at_landing = vertical_speed
 		
 		# Change ship color based on result
 		if landing_result == LandingClassifier.LandingResult.SUCCESS:
 			ship_color = Color(0.0, 1.0, 0.0)  # Green
 			is_resetting = true
-			level += 1
-			get_tree().create_timer(1.5).timeout.connect(reset_level)
+			call_deferred("_show_result_screen", true)
 		elif landing_result == LandingClassifier.LandingResult.CRASH:
 			ship_color = Color(1.0, 0.0, 0.0)  # Red
 			is_resetting = true
-			level = 1
-			get_tree().create_timer(1.5).timeout.connect(reset_level)
+			call_deferred("_show_result_screen", false)
 	
 	# Trigger redraw to show/hide flame
 	queue_redraw()
@@ -235,3 +238,41 @@ func _physics_process(delta):
 		position.y = 0
 	if position.y < 0:
 		position.y = screen_size.y
+
+func _show_result_screen(success: bool):
+	get_tree().paused = true
+	
+	result_screen_instance = ResultScreen.instantiate()
+	add_child(result_screen_instance)
+	
+	if success:
+		result_screen_instance.setup_success(level, fuel, vertical_speed_at_landing)
+	else:
+		result_screen_instance.setup_crash(level)
+		
+	result_screen_instance.restart_requested.connect(_on_restart_requested)
+	result_screen_instance.menu_requested.connect(_on_menu_requested)
+	result_screen_instance.next_level_requested.connect(_on_next_level_requested)
+
+func _on_next_level_requested():
+	if result_screen_instance:
+		result_screen_instance.queue_free()
+		result_screen_instance = null
+	level += 1
+	reset_level()
+
+func _on_restart_requested():
+	if result_screen_instance:
+		result_screen_instance.queue_free()
+		result_screen_instance = null
+	level = 1
+	reset_level()
+
+func _on_menu_requested():
+	get_tree().paused = false
+	if ResourceLoader.exists("res://scenes/HubMenu.tscn"):
+		get_tree().change_scene_to_file("res://scenes/HubMenu.tscn")
+	elif OS.has_feature("web"):
+		JavaScriptBridge.eval("window.location.href = '../index.html'")
+	else:
+		get_tree().quit()
