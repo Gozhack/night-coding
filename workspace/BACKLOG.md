@@ -140,7 +140,7 @@ muy rápido o muy inclinado = choque. Arte **100% vectorial dibujado por código
   El thrust consume combustible (barra/lectura en pantalla). Muestra velocidad vertical y combustible
   restante. Sin combustible = no hay thrust. HUD legible, responsive, estilo consistente con los otros.
 
-- [ ] **LD-09 — Variedad y dificultad por nivel.**
+- [x] **LD-09 — Variedad y dificultad por nivel.**
   Cada aterrizaje exitoso **regenera el terreno** (nueva semilla, vía LD-03) y sube la dificultad de forma
   legible: plataforma más angosta y/o terreno más escarpado y/o menos combustible inicial. Muestra el nivel
   actual. (Esto es lo que pidió Gozhack: que no sean siempre los mismos riscos.)
