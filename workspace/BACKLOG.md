@@ -149,7 +149,7 @@ muy rápido o muy inclinado = choque. Arte **100% vectorial dibujado por código
   Pantalla de éxito (score: combustible restante + bonus por aterrizaje suave + nivel alcanzado) y de choque,
   ambas con opción de reiniciar. Estilo consistente con void-tap/grid-runner/signal.
 
-- [ ] **LD-11 — Audio procedural.**
+- [x] **LD-11 — Audio procedural.**
   Rumor del motor mientras se acelera + sfx de aterrizaje y de choque (mira `void-tap/scripts/AudioManager.gd`
   como referencia — nada de samples externos).
 
