@@ -9,6 +9,8 @@ const LATERAL_SPEED = 150.0
 
 var screen_size: Vector2
 var is_thrusting = false
+var current_thrust_intensity: float = 0.0
+var audio_manager: Node
 
 # --- Game state ---
 var level = 1
@@ -55,6 +57,9 @@ func _ready():
 	if screen_size.x <= 0 or screen_size.y <= 0:
 		screen_size = Vector2(1280, 720)
 	print("DEBUG _ready: screen_size is ", screen_size)
+	
+	audio_manager = preload("res://scripts/AudioManager.gd").new()
+	add_child(audio_manager)
 	
 	# Set the ship's CollisionPolygon2D points
 	collision_polygon_2d.polygon = ship_points
@@ -187,8 +192,14 @@ func _physics_process(delta):
 		velocity.y -= THRUST * delta
 		fuel -= FUEL_BURN_RATE * delta
 		fuel = max(fuel, 0.0)
-	elif is_thrusting and fuel <= 0:
-		is_thrusting = false  # No fuel, no thrust
+		current_thrust_intensity = min(1.0, current_thrust_intensity + delta * 5.0)
+	else:
+		if is_thrusting and fuel <= 0:
+			is_thrusting = false  # No fuel, no thrust
+		current_thrust_intensity = max(0.0, current_thrust_intensity - delta * 5.0)
+		
+	if audio_manager:
+		audio_manager.set_thrust(current_thrust_intensity > 0.0, current_thrust_intensity)
 
 	# Apply lateral movement
 	velocity.x = lateral_direction * LATERAL_SPEED
@@ -220,10 +231,18 @@ func _physics_process(delta):
 		if landing_result == LandingClassifier.LandingResult.SUCCESS:
 			ship_color = Color(0.0, 1.0, 0.0)  # Green
 			is_resetting = true
+			current_thrust_intensity = 0.0
+			if audio_manager:
+				audio_manager.set_thrust(false, 0.0)
+				audio_manager.play_success()
 			call_deferred("_show_result_screen", true)
 		elif landing_result == LandingClassifier.LandingResult.CRASH:
 			ship_color = Color(1.0, 0.0, 0.0)  # Red
 			is_resetting = true
+			current_thrust_intensity = 0.0
+			if audio_manager:
+				audio_manager.set_thrust(false, 0.0)
+				audio_manager.play_crash()
 			call_deferred("_show_result_screen", false)
 	
 	# Trigger redraw to show/hide flame
