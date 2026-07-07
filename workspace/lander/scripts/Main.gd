@@ -66,8 +66,8 @@ func reset_level():
 	rotation = 0
 	ship_color = Color(0.75, 0.75, 0.75)
 	
-	# Lower initial fuel per level
-	max_fuel = max(20.0, 100.0 - (level - 1) * 10.0)
+	# Lower initial fuel per level ~8%
+	max_fuel = max(20.0, 100.0 * pow(0.92, level - 1))
 	fuel = max_fuel
 	
 	# --- Generate and draw terrain ---
@@ -129,10 +129,9 @@ func _draw():
 	var text_size = ThemeDB.fallback_font.get_string_size(velocity_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 12)
 	draw_string(ThemeDB.fallback_font, Vector2(screen_size.x - text_size.x - 10, 10), velocity_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color.WHITE)
 
-	# Level text (top center)
+	# Level text (top left corner)
 	var level_text = "LEVEL: %d" % level
-	var level_text_size = ThemeDB.fallback_font.get_string_size(level_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 12)
-	draw_string(ThemeDB.fallback_font, Vector2((screen_size.x - level_text_size.x) / 2, 25), level_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color.WHITE)
+	draw_string(ThemeDB.fallback_font, Vector2(10, 55), level_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color.WHITE)
 
 
 func _input(event):

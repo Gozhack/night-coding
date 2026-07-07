@@ -15,9 +15,8 @@ func generate_terrain(seed: int, viewport_size: Vector2, level: int = 1) -> Dict
 	var platform_points = PackedVector2Array()
 
 	# --- Define Terrain & Platform Dimensions ---
-	var width_reduction = (level - 1) * 15.0
-	var min_platform_width = max(30.0, 120.0 - width_reduction)
-	var max_platform_width = max(40.0, 200.0 - width_reduction)
+	var min_platform_width = max(30.0, 120.0 * pow(0.9, level - 1))
+	var max_platform_width = max(40.0, 200.0 * pow(0.9, level - 1))
 	var platform_width = rng.randf_range(min_platform_width, max_platform_width)
 	
 	# Position the platform somewhere in the middle 80% of the screen
@@ -27,8 +26,7 @@ func generate_terrain(seed: int, viewport_size: Vector2, level: int = 1) -> Dict
 
 	# --- Generate Terrain Points ---
 	var base_variation = 80.0
-	var variation_increase = (level - 1) * 20.0
-	var current_variation = min(250.0, base_variation + variation_increase)
+	var current_variation = min(250.0, base_variation * pow(1.2, level - 1))
 	
 	var x = 0.0
 	var y = rng.randf_range(viewport_size.y * 0.5, viewport_size.y * 0.8)
