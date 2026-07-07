@@ -145,7 +145,7 @@ muy rápido o muy inclinado = choque. Arte **100% vectorial dibujado por código
   legible: plataforma más angosta y/o terreno más escarpado y/o menos combustible inicial. Muestra el nivel
   actual. (Esto es lo que pidió Gozhack: que no sean siempre los mismos riscos.)
 
-- [ ] **LD-10 — Game over / victoria + reinicio.**
+- [x] **LD-10 — Game over / victoria + reinicio.**
   Pantalla de éxito (score: combustible restante + bonus por aterrizaje suave + nivel alcanzado) y de choque,
   ambas con opción de reiniciar. Estilo consistente con void-tap/grid-runner/signal.
 
