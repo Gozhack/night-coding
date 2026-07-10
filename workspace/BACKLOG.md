@@ -153,7 +153,7 @@ muy rápido o muy inclinado = choque. Arte **100% vectorial dibujado por código
   Rumor del motor mientras se acelera + sfx de aterrizaje y de choque (mira `void-tap/scripts/AudioManager.gd`
   como referencia — nada de samples externos).
 
-- [ ] **LD-12 — Récord persistente + back to menu.**
+- [x] **LD-12 — Récord persistente + back to menu.**
   Guarda el mejor score en `user://` con indicador "new best" al superarlo (como void-tap). Agrega botón
   "Back to Menu" (`PROCESS_MODE_ALWAYS`) y la redirección al hub como en los otros juegos.
 

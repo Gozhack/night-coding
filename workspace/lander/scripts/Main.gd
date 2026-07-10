@@ -26,6 +26,11 @@ var max_fuel = 100.0
 var fuel = 100.0
 const FUEL_BURN_RATE = 20.0  # fuel units per second while thrusting
 
+# --- Score & Save ---
+var total_score = 0
+var high_score = 0
+const SAVE_PATH = "user://lander_best_score"
+
 # --- Child Nodes ---
 @onready var terrain_polygon: Polygon2D = $TerrainPolygon
 @onready var platform_line: Line2D = $PlatformLine
@@ -64,6 +69,16 @@ func _ready():
 	# Set the ship's CollisionPolygon2D points
 	collision_polygon_2d.polygon = ship_points
 	
+	load_high_score()
+	
+	var menu_btn = Button.new()
+	menu_btn.text = "Back to Menu"
+	menu_btn.process_mode = Node.PROCESS_MODE_ALWAYS
+	menu_btn.position = Vector2(screen_size.x - 130, screen_size.y - 50)
+	menu_btn.size = Vector2(120, 40)
+	menu_btn.pressed.connect(_on_main_menu_btn_pressed)
+	add_child(menu_btn)
+	
 	reset_level()
 
 func reset_level():
@@ -74,6 +89,9 @@ func reset_level():
 	velocity = Vector2.ZERO
 	rotation = 0
 	ship_color = Color(0.75, 0.75, 0.75)
+	
+	if level == 1:
+		total_score = 0
 	
 	# Lower initial fuel per level ~8%
 	max_fuel = max(20.0, 100.0 * pow(0.92, level - 1))
@@ -141,6 +159,12 @@ func _draw():
 	# Level text (top left corner)
 	var level_text = "LEVEL: %d" % level
 	draw_string(ThemeDB.fallback_font, Vector2(10, 55), level_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color.WHITE)
+
+	# Score text (top center)
+	var score_text = "SCORE: %d" % total_score
+	draw_string(ThemeDB.fallback_font, Vector2(screen_size.x/2 - 50, 20), score_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color.WHITE)
+	var best_text = "BEST: %d" % high_score
+	draw_string(ThemeDB.fallback_font, Vector2(screen_size.x/2 - 50, 40), best_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color.WHITE)
 
 
 func _input(event):
@@ -232,6 +256,17 @@ func _physics_process(delta):
 			ship_color = Color(0.0, 1.0, 0.0)  # Green
 			is_resetting = true
 			current_thrust_intensity = 0.0
+			
+			var fuel_points = int(fuel * 10)
+			var bonus = 0
+			if vertical_speed_at_landing < 50.0:
+				bonus = 500
+			total_score += fuel_points + bonus
+			
+			if total_score > high_score:
+				high_score = total_score
+				save_high_score()
+				
 			if audio_manager:
 				audio_manager.set_thrust(false, 0.0)
 				audio_manager.play_success()
@@ -269,6 +304,28 @@ func _show_result_screen(success: bool):
 	else:
 		result_screen_instance.setup_crash(level)
 		
+		var final_score_label = Label.new()
+		final_score_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		final_score_label.add_theme_font_size_override("font_size", 32)
+		final_score_label.text = "SCORE: " + str(total_score)
+		final_score_label.position = Vector2(screen_size.x/2 - 150, screen_size.y/2 - 20)
+		final_score_label.size = Vector2(300, 40)
+		result_screen_instance.get_node("Control").add_child(final_score_label)
+		
+		var high_score_label = Label.new()
+		high_score_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		high_score_label.add_theme_font_size_override("font_size", 32)
+		if total_score > 0 and total_score >= high_score:
+			high_score_label.text = "NEW BEST: " + str(total_score)
+			high_score_label.modulate = Color("#00ffff")
+		else:
+			high_score_label.text = "BEST: " + str(high_score)
+			high_score_label.modulate = Color.WHITE
+		
+		high_score_label.position = Vector2(screen_size.x/2 - 150, screen_size.y/2 + 20)
+		high_score_label.size = Vector2(300, 40)
+		result_screen_instance.get_node("Control").add_child(high_score_label)
+		
 	result_screen_instance.restart_requested.connect(_on_restart_requested)
 	result_screen_instance.menu_requested.connect(_on_menu_requested)
 	result_screen_instance.next_level_requested.connect(_on_next_level_requested)
@@ -289,9 +346,29 @@ func _on_restart_requested():
 
 func _on_menu_requested():
 	get_tree().paused = false
-	if ResourceLoader.exists("res://scenes/HubMenu.tscn"):
-		get_tree().change_scene_to_file("res://scenes/HubMenu.tscn")
+	if ResourceLoader.exists("res://scenes/Main.tscn"):
+		get_tree().change_scene_to_file("res://scenes/Main.tscn")
 	elif OS.has_feature("web"):
 		JavaScriptBridge.eval("window.location.href = '../index.html'")
 	else:
 		get_tree().quit()
+
+func _on_main_menu_btn_pressed():
+	get_tree().paused = false
+	if ResourceLoader.exists("res://scenes/Main.tscn"):
+		get_tree().change_scene_to_file("res://scenes/Main.tscn")
+	elif OS.has_feature("web"):
+		JavaScriptBridge.eval("window.location.href = '../index.html'")
+	else:
+		get_tree().quit()
+
+func load_high_score():
+	if FileAccess.file_exists(SAVE_PATH):
+		var file = FileAccess.open(SAVE_PATH, FileAccess.READ)
+		if file:
+			high_score = file.get_32()
+
+func save_high_score():
+	var file = FileAccess.open(SAVE_PATH, FileAccess.WRITE)
+	if file:
+		file.store_32(high_score)
